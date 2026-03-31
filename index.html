@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnQuest - Learn to Code & Earn XP</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">🎮 LearnQuest</div>
+      <ul class="nav-links">
+        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li><a href="#" onclick="showPage('tasks')">Tasks</a></li>
+        <li><a href="#" onclick="showPage('jobs')">Jobs</a></li>
+        <li><a href="#" onclick="showPage('leaderboard')">Leaderboard</a></li>
+        <li><a href="#" onclick="showPage('profile')">Profile</a></li>
+      </ul>
+      <div id="userStatus">
+        <button onclick="showPage('auth')" class="btn-primary">Login/Sign Up</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- AUTH PAGE -->
+  <div id="page-auth" class="page" style="display: none;">
+    <div class="auth-container">
+      <div class="auth-card">
+        <h2>Create Account</h2>
+        <input type="text" id="signupName" placeholder="Full Name" class="input-field">
+        <input type="email" id="signupEmail" placeholder="Email Address" class="input-field">
+        <button onclick="handleSignup()" class="btn-primary btn-large">Sign Up</button>
+      </div>
+      <div class="auth-card">
+        <h2>Login</h2>
+        <input type="email" id="loginEmail" placeholder="Email Address" class="input-field">
+        <button onclick="handleLogin()" class="btn-primary btn-large">Login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOME PAGE -->
+  <div id="page-home" class="page">
+    <div class="hero">
+      <h1>Welcome to LearnQuest! 🚀</h1>
+      <p>Learn web development through interactive quests and earn XP to climb the leaderboard</p>
+    </div>
+    
+    <div class="stats-container">
+      <div class="stat-card">
+        <h3 id="statUsers">0</h3>
+        <p>Active Learners</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="statTasks">0</h3>
+        <p>Available Quests</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="statJobs">0</h3>
+        <p>Job Openings</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="statXP">0</h3>
+        <p>Total XP Earned</p>
+      </div>
+    </div>
+
+    <section class="featured-section">
+      <h2>Featured Quests</h2>
+      <div id="featuredTasks" class="card-grid"></div>
+    </section>
+  </div>
+
+  <!-- TASKS PAGE -->
+  <div id="page-tasks" class="page" style="display: none;">
+    <div class="page-header">
+      <h1>Available Quests</h1>
+      <p>Complete challenges to earn XP and level up</p>
+    </div>
+
+    <div class="filter-bar">
+      <button onclick="filterTasks('all')" class="filter-btn active">All</button>
+      <button onclick="filterTasks('frontend')" class="filter-btn">Frontend</button>
+      <button onclick="filterTasks('backend')" class="filter-btn">Backend</button>
+      <button onclick="filterTasks('fullstack')" class="filter-btn">Full Stack</button>
+    </div>
+
+    <div id="tasksList" class="card-grid"></div>
+  </div>
+
+  <!-- JOBS PAGE -->
+  <div id="page-jobs" class="page" style="display: none;">
+    <div class="page-header">
+      <h1>Job Opportunities</h1>
+      <p>Apply for positions once you've leveled up</p>
+    </div>
+    <div id="jobsList" class="card-grid"></div>
+  </div>
+
+  <!-- LEADERBOARD PAGE -->
+  <div id="page-leaderboard" class="page" style="display: none;">
+    <div class="page-header">
+      <h1>Leaderboard</h1>
+      <p>Top performers in the community</p>
+    </div>
+    <div class="leaderboard-container">
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Player</th>
+            <th>Level</th>
+            <th>XP</th>
+            <th>Joined</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboardBody">
+          <tr><td colspan="5" style="text-align: center;">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PROFILE PAGE -->
+  <div id="page-profile" class="page" style="display: none;">
+    <div class="profile-container">
+      <div class="profile-header">
+        <div class="avatar-large" id="profileAvatar">👤</div>
+        <div class="profile-info">
+          <h1 id="profileName">User Profile</h1>
+          <p id="profileEmail">email@example.com</p>
+          <p id="profileLevel">Level 1</p>
+        </div>
+      </div>
+
+      <div class="profile-stats">
+        <div class="stat-box">
+          <h3 id="profileXP">0</h3>
+          <p>Total XP</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="profileTasksCompleted">0</h3>
+          <p>Quests Completed</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="profileRank">-</h3>
+          <p>Rank</p>
+        </div>
+      </div>
+
+      <div class="profile-section">
+        <h2>Bio</h2>
+        <textarea id="profileBio" placeholder="Tell us about yourself..." class="input-field"></textarea>
+        <button onclick="updateProfile()" class="btn-primary">Save Profile</button>
+      </div>
+
+      <button onclick="handleLogout()" class="btn-danger">Logout</button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2026 LearnQuest. Learn | Build | Succeed</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

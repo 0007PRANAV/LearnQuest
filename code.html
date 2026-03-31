@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LearnQuest | Recruitment Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#a9abb3",
+              "primary-fixed": "#00eefc",
+              "outline": "#73757d",
+              "error": "#ff6e84",
+              "secondary-dim": "#b90afc",
+              "outline-variant": "#45484f",
+              "secondary": "#d575ff",
+              "on-secondary-fixed-variant": "#8300b4",
+              "secondary-fixed-dim": "#eaaeff",
+              "surface-bright": "#282c36",
+              "on-error": "#490013",
+              "on-primary-fixed-variant": "#005e64",
+              "primary-fixed-dim": "#00deec",
+              "inverse-on-surface": "#52555c",
+              "on-secondary-container": "#fff5fc",
+              "surface-container": "#161a21",
+              "tertiary-fixed-dim": "#95e400",
+              "on-surface": "#ecedf6",
+              "on-primary": "#005d63",
+              "surface-variant": "#22262f",
+              "surface-container-highest": "#22262f",
+              "on-secondary-fixed": "#58007a",
+              "surface-container-high": "#1c2028",
+              "surface": "#0b0e14",
+              "on-tertiary-container": "#365700",
+              "background": "#0b0e14",
+              "tertiary": "#bcff5f",
+              "surface-container-low": "#10131a",
+              "tertiary-container": "#a2f31f",
+              "secondary-fixed": "#f0c1ff",
+              "on-primary-container": "#005359",
+              "primary-dim": "#00deec",
+              "surface-dim": "#0b0e14",
+              "error-dim": "#d73357",
+              "tertiary-dim": "#95e400",
+              "on-tertiary-fixed-variant": "#3d6200",
+              "inverse-surface": "#f9f9ff",
+              "surface-container-lowest": "#000000",
+              "on-error-container": "#ffb2b9",
+              "inverse-primary": "#006a71",
+              "on-background": "#ecedf6",
+              "primary": "#8ff5ff",
+              "on-primary-fixed": "#003f43",
+              "on-tertiary": "#3d6100",
+              "primary-container": "#00eefc",
+              "error-container": "#a70138",
+              "on-tertiary-fixed": "#294300",
+              "tertiary-fixed": "#a2f31f",
+              "on-secondary": "#390050",
+              "surface-tint": "#8ff5ff",
+              "secondary-container": "#9800d0"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Manrope"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0b0e14;
+            color: #ecedf6;
+            font-family: 'Manrope', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(22, 26, 33, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(143, 245, 255, 0.05);
+        }
+        .glow-cyan { box-shadow: 0 0 20px rgba(143, 245, 255, 0.15); }
+        .glow-violet { box-shadow: 0 0 20px rgba(213, 117, 255, 0.15); }
+        .funnel-step { clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%, 10% 50%); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl dark:bg-[#0b0e14]/40 shadow-[0_0_40px_rgba(143,245,255,0.1)]">
+<div class="flex justify-between items-center px-6 h-20 w-full max-w-none">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-secondary p-[1px]">
+<img alt="User Avatar" class="w-full h-full rounded-full bg-surface" data-alt="high-performance holographic avatar of a professional recruiter with neon accents and sleek digital aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM6C2p8tReutmKvkYvriG8ogBYJYNvK7qvek5PgmjVngg96_XY25uBkbmn5pE2ACZ_BDM6u_-__v9Q1sAsRIynTJka0M-qq0pijx54t1e4dOdNg3fh7UDdj2aBBqUMaqITiy2Ba5fYOOSgBCcWBJzrYs1TSejnh-2Vl-G8hkCUymPjdTgg0FB4oMCu8x5xpmAXD4bgtZubCVndoCpwSVbK2unvyDXNFrnxWPn9wdFZu7iujEEaUEtLQxymIhBxzXJ7bPCga2-JKTY"/>
+</div>
+<h1 class="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-[#8ff5ff] to-[#00deec] font-['Space_Grotesk'] uppercase">LEARNQUEST</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-[#8ff5ff] font-['Space_Grotesk'] tracking-tight font-bold uppercase transition-all duration-300" href="#">Analytics</a>
+<a class="text-slate-400 font-['Space_Grotesk'] tracking-tight font-bold uppercase hover:bg-[#8ff5ff]/10 transition-all duration-300 px-3 py-1 rounded-lg" href="#">Talent Pool</a>
+<a class="text-slate-400 font-['Space_Grotesk'] tracking-tight font-bold uppercase hover:bg-[#8ff5ff]/10 transition-all duration-300 px-3 py-1 rounded-lg" href="#">Campaigns</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="bg-surface-container px-4 py-2 rounded-full border border-primary/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="bolt">bolt</span>
+<span class="text-primary font-bold font-['Space_Grotesk']">1,250 XP</span>
+</div>
+</div>
+</div>
+<div class="bg-gradient-to-r from-transparent via-[#8ff5ff]/15 to-transparent h-[1px] w-full absolute bottom-0"></div>
+</header>
+<main class="pt-28 px-6 max-w-7xl mx-auto space-y-8">
+<!-- Dashboard Header -->
+<section class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+<div>
+<p class="text-primary font-label text-sm tracking-[0.2em] uppercase mb-2">Recruitment Command Center</p>
+<h2 class="text-4xl font-headline font-bold tracking-tight">Hiring Intelligence <span class="text-secondary">Dashboard</span></h2>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-high hover:bg-surface-variant text-on-surface px-6 py-3 rounded-xl font-label font-bold text-xs tracking-widest uppercase transition-all flex items-center gap-2 border border-outline-variant/30">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+                    Last 30 Days
+                </button>
+<button class="bg-gradient-to-br from-primary to-primary-dim text-on-primary-fixed px-6 py-3 rounded-xl font-label font-bold text-xs tracking-widest uppercase transition-all hover:shadow-[0_0_20px_rgba(143,245,255,0.4)] active:scale-95">
+                    Export Report
+                </button>
+</div>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Applicant Funnel Chart (Main Content) -->
+<div class="md:col-span-8 glass-card rounded-3xl p-8 overflow-hidden relative group">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+<div class="flex justify-between items-start mb-12">
+<div>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-1">Applicant Funnel</h3>
+<p class="text-on-surface-variant text-sm">Conversion rates across recruitment stages</p>
+</div>
+<span class="text-tertiary font-label font-bold bg-tertiary/10 px-3 py-1 rounded-full text-xs">+12.4% vs LY</span>
+</div>
+<div class="flex flex-col gap-6 relative">
+<!-- Sourced -->
+<div class="flex items-center gap-4 group/row">
+<div class="w-24 text-right text-xs font-label font-bold text-on-surface-variant uppercase tracking-tighter">Sourced</div>
+<div class="flex-1 h-14 relative bg-surface-container-low rounded-xl overflow-hidden">
+<div class="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-primary/40 to-primary/10 border-r-4 border-primary shadow-[4px_0_10px_rgba(143,245,255,0.3)]"></div>
+<div class="absolute inset-0 flex items-center justify-between px-6">
+<span class="font-headline font-bold text-lg">2,480</span>
+<span class="text-xs font-label opacity-60">100%</span>
+</div>
+</div>
+</div>
+<!-- Screened -->
+<div class="flex items-center gap-4 group/row">
+<div class="w-24 text-right text-xs font-label font-bold text-on-surface-variant uppercase tracking-tighter">Screened</div>
+<div class="flex-1 h-14 relative bg-surface-container-low rounded-xl overflow-hidden">
+<div class="absolute inset-y-0 left-0 w-[65%] bg-gradient-to-r from-primary/40 to-primary/10 border-r-4 border-primary shadow-[4px_0_10px_rgba(143,245,255,0.3)]"></div>
+<div class="absolute inset-0 flex items-center justify-between px-6">
+<span class="font-headline font-bold text-lg">1,612</span>
+<span class="text-xs font-label opacity-60">65%</span>
+</div>
+</div>
+</div>
+<!-- Interviewed -->
+<div class="flex items-center gap-4 group/row">
+<div class="w-24 text-right text-xs font-label font-bold text-on-surface-variant uppercase tracking-tighter">Interview</div>
+<div class="flex-1 h-14 relative bg-surface-container-low rounded-xl overflow-hidden">
+<div class="absolute inset-y-0 left-0 w-[22%] bg-gradient-to-r from-secondary/40 to-secondary/10 border-r-4 border-secondary shadow-[4px_0_10px_rgba(213,117,255,0.3)]"></div>
+<div class="absolute inset-0 flex items-center justify-between px-6">
+<span class="font-headline font-bold text-lg">545</span>
+<span class="text-xs font-label opacity-60">22%</span>
+</div>
+</div>
+</div>
+<!-- Hired -->
+<div class="flex items-center gap-4 group/row">
+<div class="w-24 text-right text-xs font-label font-bold text-on-surface-variant uppercase tracking-tighter text-tertiary">Hired</div>
+<div class="flex-1 h-14 relative bg-surface-container-low rounded-xl overflow-hidden">
+<div class="absolute inset-y-0 left-0 w-[4.5%] bg-gradient-to-r from-tertiary/40 to-tertiary/10 border-r-4 border-tertiary shadow-[4px_0_10px_rgba(188,255,95,0.3)]"></div>
+<div class="absolute inset-0 flex items-center justify-between px-6">
+<span class="font-headline font-bold text-lg text-tertiary">112</span>
+<span class="text-xs font-label opacity-60">4.5%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Top Skill Distribution (Sidebar) -->
+<div class="md:col-span-4 glass-card rounded-3xl p-8 flex flex-col">
+<h3 class="text-xl font-headline font-bold text-on-surface mb-6">Skill Clusters</h3>
+<div class="flex-1 flex flex-col justify-center gap-6">
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant">
+<span>React / Frontend</span>
+<span class="text-primary">88%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full w-[88%] bg-primary rounded-full shadow-[0_0_10px_rgba(143,245,255,0.5)]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant">
+<span>Python / AI</span>
+<span class="text-secondary">74%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full w-[74%] bg-secondary rounded-full shadow-[0_0_10px_rgba(213,117,255,0.5)]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant">
+<span>System Design</span>
+<span class="text-tertiary">62%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full w-[62%] bg-tertiary rounded-full shadow-[0_0_10px_rgba(188,255,95,0.5)]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant">
+<span>Data Science</span>
+<span class="text-on-surface">45%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full w-[45%] bg-outline rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-outline-variant/20">
+<button class="w-full py-4 text-xs font-label font-bold uppercase tracking-widest text-primary hover:bg-primary/5 rounded-xl transition-all flex items-center justify-center gap-2 group">
+                        View Detailed Skill Matrix
+                        <span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Challenge Performance Metrics -->
+<div class="md:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Avg Completion Time -->
+<div class="glass-card rounded-3xl p-6 flex items-center gap-6 group hover:border-primary/20 transition-all">
+<div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="timer">timer</span>
+</div>
+<div>
+<p class="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">Avg. Completion</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-headline font-bold">42m</span>
+<span class="text-tertiary text-xs font-bold">-8m</span>
+</div>
+</div>
+</div>
+<!-- Technical Accuracy -->
+<div class="glass-card rounded-3xl p-6 flex items-center gap-6 group hover:border-secondary/20 transition-all">
+<div class="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="psychology">psychology</span>
+</div>
+<div>
+<p class="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">Technical Score</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-headline font-bold">78.5%</span>
+<span class="text-tertiary text-xs font-bold">+5.2%</span>
+</div>
+</div>
+</div>
+<!-- Plagiarism Flags -->
+<div class="glass-card rounded-3xl p-6 flex items-center gap-6 group hover:border-error/20 transition-all">
+<div class="w-16 h-16 rounded-2xl bg-error/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-error text-3xl" data-icon="security">security</span>
+</div>
+<div>
+<p class="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">Integrity Rate</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-headline font-bold">99.8%</span>
+<span class="text-on-surface-variant text-xs font-label">Trusted</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Dynamic Leaderboard/List -->
+<div class="md:col-span-12 glass-card rounded-3xl overflow-hidden">
+<div class="p-8 border-b border-outline-variant/20 flex flex-col md:flex-row justify-between md:items-center gap-4">
+<h3 class="text-xl font-headline font-bold">Top Performing Candidates</h3>
+<div class="flex gap-2">
+<span class="bg-surface-container-highest px-3 py-1 rounded-full text-[10px] font-label font-bold uppercase tracking-widest">Active Challenges</span>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-label font-bold uppercase tracking-widest">New Talent</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="text-[10px] font-label font-bold uppercase tracking-[0.2em] text-on-surface-variant border-b border-outline-variant/10">
+<th class="px-8 py-4">Candidate</th>
+<th class="px-8 py-4">Core Skill</th>
+<th class="px-8 py-4">Quest Score</th>
+<th class="px-8 py-4">Experience</th>
+<th class="px-8 py-4">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-surface-variant overflow-hidden">
+<img alt="Alex" data-alt="professional portrait of a software developer with modern clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkfsnmk_SILfKaWPrqP3bLtjDZUs7B9ySBsq2gUqP2_tuBSlOoNGr5jkyG9hcYQszGUQXoGMbb0337vxi-86CYhb6RtUJj3DLAGcT2JFUIm0yeOlbATln6sVCb6NEWofJ08zvXwpyzgnrcsbfhYKwlnNtT1yKd8qpeCFXrMERjDTurkvxp5JeXGW7gBWyKkYwtV3r-phKLWGlKEZJiTgg1KqzwJKavX5klwB0_BK_gJwWHs1rhPU8xSaIoC4-bBtcuiGAndoZxmys"/>
+</div>
+<div>
+<p class="font-headline font-bold text-sm">Alex Rivera</p>
+<p class="text-xs text-on-surface-variant">San Francisco, CA</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-2 py-1 rounded-md bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">Fullstack Node</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="font-headline font-bold text-primary">982</span>
+<div class="flex gap-0.5">
+<div class="w-1 h-3 bg-primary rounded-full"></div>
+<div class="w-1 h-3 bg-primary rounded-full"></div>
+<div class="w-1 h-3 bg-primary rounded-full"></div>
+<div class="w-1 h-3 bg-primary rounded-full"></div>
+<div class="w-1 h-3 bg-primary/20 rounded-full"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-sm font-label text-on-surface-variant">5+ Years</td>
+<td class="px-8 py-5">
+<button class="bg-surface-container-highest px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all hover:bg-primary hover:text-on-primary">Interview</button>
+</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-surface-variant overflow-hidden">
+<img alt="Sarah" data-alt="professional portrait of a female data scientist with smart glasses and confident expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA36-H55m6rVRgyKEgdgMCS_a5PxPGVlJw74NsM4GuXIEGB6NzQPh69v8ICzVzlquGhAYN-NStGmrRNS5ZEAGjkqrpLUgSNRKDD5lSpFBKyuYTO81WTiDODF9Quvr8395sMZ79kdcyJvVTMFgs-aC0ietWwDgYLStM9stQsMTyn2CkBc39cwzI2qSyOru0hfuR-vBjZDczlNXJHONyA2biZODb65BSum6Xg0NwgzC6Z-rZiNmBAj3wezJ11Ysx9vd4T5soySTf55VA"/>
+</div>
+<div>
+<p class="font-headline font-bold text-sm">Sarah Chen</p>
+<p class="text-xs text-on-surface-variant">Remote / London</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-2 py-1 rounded-md bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-widest">ML Engineer</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="font-headline font-bold text-secondary">945</span>
+<div class="flex gap-0.5">
+<div class="w-1 h-3 bg-secondary rounded-full"></div>
+<div class="w-1 h-3 bg-secondary rounded-full"></div>
+<div class="w-1 h-3 bg-secondary rounded-full"></div>
+<div class="w-1 h-3 bg-secondary rounded-full"></div>
+<div class="w-1 h-3 bg-secondary/20 rounded-full"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-sm font-label text-on-surface-variant">3+ Years</td>
+<td class="px-8 py-5">
+<button class="bg-surface-container-highest px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all hover:bg-primary hover:text-on-primary">Interview</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-24 px-4 pb-6 bg-[#0b0e14]/40 backdrop-blur-2xl dark:bg-[#0b0e14]/40 border-t border-[#8ff5ff]/10 z-50">
+<a class="flex flex-col items-center justify-center text-[#8ff5ff] drop-shadow-[0_0_8px_rgba(143,245,255,0.8)] transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="explore">explore</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold tracking-widest uppercase mt-1">Quests</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:text-[#bcff5f] transition-all duration-300 active:scale-90" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="Work">work</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold tracking-widest uppercase mt-1">Portfolio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:text-[#bcff5f] transition-all duration-300 active:scale-90" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="rocket_launch">rocket_launch</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold tracking-widest uppercase mt-1">Jobs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:text-[#bcff5f] transition-all duration-300 active:scale-90" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="account_circle">account_circle</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold tracking-widest uppercase mt-1">Profile</span>
+</a>
+</nav>
+</body></html>
