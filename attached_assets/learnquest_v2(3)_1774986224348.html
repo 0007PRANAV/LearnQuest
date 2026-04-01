@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LearnQuest v2 — Learn. Certify. Get Hired.</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080B14;--surface:#0F1422;--surface2:#161B2E;--surface3:#1C2238;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#E8EAF0;--muted:#5A607A;--muted2:#8890A8;
+  --blue:#4F8EF7;--purple:#9B6FFF;--green:#2ECC8E;
+  --orange:#FF8C42;--pink:#FF5FA0;--yellow:#FFD166;--teal:#2EC4B6;--red:#FF4D4D;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--purple);border-radius:2px}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle var(--d,3s) var(--del,0s) infinite alternate}
+@keyframes twinkle{from{opacity:.06}to{opacity:.45}}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;border-bottom:1px solid var(--border);background:rgba(8,11,20,.92);backdrop-filter:blur(20px)}
+.logo{font-size:1.2rem;font-weight:900;letter-spacing:-.04em;cursor:pointer}.logo span{color:var(--blue)}
+.nav-tabs{display:flex;gap:.2rem}
+.nav-tab{padding:.4rem .8rem;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;color:var(--muted2);transition:all .15s;border:1px solid transparent}
+.nav-tab:hover{color:var(--text);background:var(--surface2)}
+.nav-tab.active{color:var(--blue);background:rgba(79,142,247,.1);border-color:rgba(79,142,247,.2)}
+.nav-right{display:flex;align-items:center;gap:.5rem}
+.mode-toggle{display:flex;background:var(--surface2);border:1px solid var(--border2);border-radius:20px;padding:3px;gap:2px}
+.mode-btn{padding:.28rem .75rem;border-radius:16px;font-size:.68rem;font-weight:700;cursor:pointer;transition:all .15s;color:var(--muted2)}
+.mode-btn.active{background:var(--blue);color:#fff}
+.nav-pill{display:flex;align-items:center;gap:.32rem;background:var(--surface2);border:1px solid var(--border2);padding:.28rem .65rem;border-radius:20px;font-size:.7rem;font-weight:700;cursor:pointer}
+.nav-pill:hover{border-color:var(--border2)}
+.streak-nav{position:relative}
+.streak-warning{position:absolute;top:-4px;right:-4px;width:10px;height:10px;background:var(--red);border-radius:50%;border:2px solid var(--bg);animation:urgentPulse 1s infinite}
+@keyframes urgentPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+.av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;cursor:pointer;border:2px solid rgba(79,142,247,.3)}
+
+/* ── LAYOUT ── */
+.app-shell{display:grid;grid-template-columns:220px 1fr;min-height:100vh;padding-top:60px;position:relative;z-index:1}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:1.1rem .7rem;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;display:flex;flex-direction:column;gap:.18rem}
+.sb-sec{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:.6rem .6rem .28rem;margin-top:.3rem}
+.sb-item{display:flex;align-items:center;gap:.6rem;padding:.5rem .6rem;border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:500;color:var(--muted2);transition:all .15s}
+.sb-item:hover{background:var(--surface2);color:var(--text)}
+.sb-item.active{background:rgba(79,142,247,.1);color:var(--blue);border:1px solid rgba(79,142,247,.15)}
+.sb-badge{margin-left:auto;font-size:.6rem;font-weight:700;padding:.1rem .38rem;border-radius:8px;min-width:16px;text-align:center}
+.sb-badge.b{background:var(--blue);color:#fff}.sb-badge.g{background:var(--green);color:#fff}.sb-badge.o{background:var(--orange);color:#fff}.sb-badge.r{background:var(--red);color:#fff}
+.lvl-card{background:linear-gradient(135deg,rgba(79,142,247,.07),rgba(155,111,255,.07));border:1px solid rgba(155,111,255,.14);border-radius:12px;padding:.85rem;margin-bottom:.35rem}
+.lvl-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem}
+.lvl-n{font-size:.95rem;font-weight:800;color:var(--purple)}.lvl-l{font-size:.65rem;color:var(--muted2)}
+.xp-bg{height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.xp-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:3px;animation:glowbar 2s infinite alternate}
+@keyframes glowbar{to{box-shadow:0 0 5px var(--blue)}}
+.xp-sub{font-size:.6rem;color:var(--muted);text-align:right;margin-top:.22rem}
+/* STREAK MINI in sidebar */
+.streak-mini{background:rgba(255,140,66,.07);border:1px solid rgba(255,140,66,.18);border-radius:10px;padding:.7rem;margin-bottom:.35rem;display:flex;align-items:center;gap:.6rem}
+.streak-fire{font-size:1.5rem;animation:fireWobble 1.5s ease-in-out infinite alternate}
+@keyframes fireWobble{from{transform:scale(1) rotate(-3deg)}to{transform:scale(1.15) rotate(3deg)}}
+.streak-info{flex:1}
+.streak-count{font-size:1.1rem;font-weight:800;color:var(--orange);line-height:1}
+.streak-label{font-size:.62rem;color:var(--muted2)}
+.streak-shield{font-size:.9rem;cursor:pointer}
+
+/* ── MAIN ── */
+.main{padding:1.6rem;overflow-y:auto;height:calc(100vh - 60px)}
+.page{display:none}.page.active{display:block}
+.pg-title{font-size:1.45rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.2rem}
+.pg-sub{font-size:.83rem;color:var(--muted2);margin-bottom:1.4rem;font-weight:300}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.sec-title{font-size:.92rem;font-weight:700}
+.sec-link{font-size:.76rem;color:var(--blue);cursor:pointer;font-weight:500}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:1.4rem}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;position:relative;overflow:hidden;transition:transform .15s,border-color .15s}
+.stat:hover{transform:translateY(-2px);border-color:var(--border2)}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.stat.bl::before{background:linear-gradient(90deg,var(--blue),transparent)}.stat.pu::before{background:linear-gradient(90deg,var(--purple),transparent)}
+.stat.gr::before{background:linear-gradient(90deg,var(--green),transparent)}.stat.or::before{background:linear-gradient(90deg,var(--orange),transparent)}
+.stat-v{font-size:1.6rem;font-weight:800;letter-spacing:-.03em;line-height:1}
+.stat-v.bl{color:var(--blue)}.stat-v.pu{color:var(--purple)}.stat-v.gr{color:var(--green)}.stat-v.or{color:var(--orange)}
+.stat-l{font-size:.7rem;color:var(--muted2);margin-top:.18rem;font-weight:500}.stat-i{font-size:1.2rem;margin-bottom:.35rem}
+
+/* QUEST CARD */
+.quest-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.3rem;display:grid;grid-template-columns:1fr auto;gap:1.1rem;align-items:center;position:relative;overflow:hidden;margin-bottom:1.4rem}
+.quest-card:hover{border-color:rgba(79,142,247,.22)}
+.quest-card::after{content:'';position:absolute;top:-60px;right:-60px;width:230px;height:230px;background:radial-gradient(circle,rgba(79,142,247,.04),transparent 70%);pointer-events:none}
+.q-badge{display:inline-flex;align-items:center;gap:.32rem;background:rgba(155,111,255,.1);border:1px solid rgba(155,111,255,.18);color:var(--purple);font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.2rem .55rem;border-radius:20px;margin-bottom:.6rem}
+.q-title{font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.3rem}
+.q-desc{font-size:.8rem;color:var(--muted2);line-height:1.6;margin-bottom:.8rem;font-weight:300}
+.q-prog-row{display:flex;justify-content:space-between;font-size:.7rem;margin-bottom:.3rem}
+.q-pct{color:var(--blue);font-weight:700}
+.prog-bg{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 1s ease}
+.q-meta{display:flex;gap:.8rem;margin-top:.6rem;flex-wrap:wrap}
+.q-mi{font-size:.7rem;color:var(--muted2)}.q-mi strong{color:var(--text)}
+.res-btn{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border:none;padding:.65rem 1.25rem;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;transition:transform .15s;white-space:nowrap}
+.res-btn:hover{transform:scale(1.04)}
+
+/* ── STREAK PAGE ── */
+.streak-hero{background:linear-gradient(135deg,rgba(255,140,66,.08),rgba(255,77,77,.08));border:1px solid rgba(255,140,66,.18);border-radius:20px;padding:2rem;text-align:center;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.streak-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(255,140,66,.04),transparent 70%)}
+.streak-big{font-size:5rem;font-weight:900;color:var(--orange);line-height:1;letter-spacing:-.05em;position:relative;z-index:1}
+.streak-big-fire{font-size:4rem;animation:fireWobble 1.5s ease-in-out infinite alternate}
+.streak-tagline{font-size:1rem;color:var(--muted2);margin-top:.5rem;position:relative;z-index:1}
+.streak-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.5rem;margin-bottom:1.5rem}
+.streak-day{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.6rem .3rem;text-align:center;font-size:.62rem}
+.streak-day.done{background:rgba(255,140,66,.1);border-color:rgba(255,140,66,.3)}
+.streak-day.today{background:rgba(255,140,66,.2);border-color:var(--orange);box-shadow:0 0 12px rgba(255,140,66,.2)}
+.streak-day.missed{background:rgba(255,77,77,.07);border-color:rgba(255,77,77,.2)}
+.streak-day.frozen{background:rgba(79,142,247,.07);border-color:rgba(79,142,247,.2)}
+.sd-icon{font-size:1.2rem;margin-bottom:.25rem}
+.sd-label{color:var(--muted2);font-size:.58rem}
+.freeze-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+.freeze-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.4rem;text-align:center;transition:border-color .2s,transform .15s}
+.freeze-card:hover{transform:translateY(-2px)}
+.freeze-card.best{border-color:rgba(79,142,247,.3);background:rgba(79,142,247,.04)}
+.fc-icon{font-size:2.5rem;margin-bottom:.75rem}
+.fc-name{font-size:.95rem;font-weight:700;margin-bottom:.3rem}
+.fc-desc{font-size:.78rem;color:var(--muted2);line-height:1.6;margin-bottom:1rem;font-weight:300}
+.fc-status{font-size:.78rem;font-weight:700;padding:.3rem .8rem;border-radius:20px;display:inline-block;margin-bottom:.85rem}
+.fc-status.free{background:rgba(46,204,142,.1);color:var(--green);border:1px solid rgba(46,204,142,.2)}
+.fc-status.xp{background:rgba(255,209,102,.1);color:var(--yellow);border:1px solid rgba(255,209,102,.2)}
+.fc-status.paid{background:rgba(155,111,255,.1);color:var(--purple);border:1px solid rgba(155,111,255,.2)}
+.fc-btn{width:100%;padding:.65rem;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s;border:1px solid var(--border2);background:var(--surface2);color:var(--text)}
+.fc-btn:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+.fc-btn.active-btn{background:linear-gradient(135deg,var(--blue),var(--purple));border:none;color:#fff}
+
+/* STREAK CALENDAR weeks */
+.month-streak{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem}
+.ms-title{font-size:.8rem;font-weight:700;margin-bottom:1rem;color:var(--muted2);text-transform:uppercase;letter-spacing:.08em}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.35rem}
+.cal-day{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:600}
+.cal-day.done{background:rgba(255,140,66,.18);color:var(--orange)}
+.cal-day.today{background:var(--orange);color:#fff}
+.cal-day.missed{background:rgba(255,77,77,.1);color:var(--red)}
+.cal-day.frozen{background:rgba(79,142,247,.12);color:var(--blue)}
+.cal-day.empty{background:transparent;color:var(--muted)}
+.cal-day.future{background:rgba(255,255,255,.03);color:var(--muted)}
+
+/* ── AI AGENT ── */
+.agent-layout{display:grid;grid-template-columns:240px 1fr;gap:1.25rem;height:calc(100vh - 140px)}
+.agent-sidebar{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.1rem;display:flex;flex-direction:column;gap:.85rem;overflow-y:auto}
+.agent-profile{text-align:center;padding:.75rem 0}
+.ap-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto .75rem;border:3px solid rgba(155,111,255,.3);animation:agentGlow 3s ease-in-out infinite alternate}
+@keyframes agentGlow{from{box-shadow:0 0 12px rgba(155,111,255,.2)}to{box-shadow:0 0 24px rgba(155,111,255,.5)}}
+.ap-name{font-size:1rem;font-weight:800;margin-bottom:.2rem}
+.ap-role{font-size:.72rem;color:var(--muted2);margin-bottom:.5rem}
+.ap-status{display:inline-flex;align-items:center;gap:.35rem;font-size:.68rem;font-weight:600;color:var(--green);background:rgba(46,204,142,.1);border:1px solid rgba(46,204,142,.2);padding:.22rem .6rem;border-radius:20px}
+.ap-status::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;animation:urgentPulse 1.5s infinite}
+.agent-cats{display:flex;flex-direction:column;gap:.3rem}
+.agent-cat-title{font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+.agent-cat{padding:.55rem .7rem;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:.8rem;cursor:pointer;transition:all .15s;color:var(--muted2)}
+.agent-cat:hover{border-color:var(--purple);color:var(--text)}
+.agent-cat.sel{background:rgba(155,111,255,.1);border-color:rgba(155,111,255,.25);color:var(--purple)}
+.agent-stats{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.ag-stat{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.6rem;text-align:center}
+.ag-stat-v{font-size:1rem;font-weight:800;color:var(--blue)}
+.ag-stat-l{font-size:.6rem;color:var(--muted2)}
+.chat-area{background:var(--surface);border:1px solid var(--border);border-radius:16px;display:flex;flex-direction:column;overflow:hidden}
+.chat-header{padding:.9rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem}
+.chat-header-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:1rem}
+.chat-header-info{flex:1}
+.chat-header-name{font-size:.88rem;font-weight:700}
+.chat-header-status{font-size:.68rem;color:var(--green)}
+.chat-msgs{flex:1;overflow-y:auto;padding:1.2rem;display:flex;flex-direction:column;gap:.85rem;max-height:calc(100vh - 320px)}
+.msg{display:flex;gap:.65rem;align-items:flex-start}
+.msg.user{flex-direction:row-reverse}
+.msg-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;font-weight:700}
+.msg-av.bot{background:linear-gradient(135deg,var(--purple),var(--blue))}
+.msg-av.usr{background:linear-gradient(135deg,var(--blue),var(--teal))}
+.msg-bubble{max-width:75%;padding:.75rem 1rem;border-radius:14px;font-size:.83rem;line-height:1.65}
+.msg-bubble.bot{background:var(--surface2);border:1px solid var(--border);border-top-left-radius:4px}
+.msg-bubble.usr{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border-top-right-radius:4px}
+.msg-bubble p{margin-bottom:.4rem}.msg-bubble p:last-child{margin-bottom:0}
+.msg-bubble strong{color:var(--blue)}.msg-bubble.usr strong{color:#fff}
+.msg-time{font-size:.6rem;color:var(--muted);margin-top:.25rem}
+.typing-indicator{display:flex;gap:.35rem;padding:.75rem 1rem;background:var(--surface2);border:1px solid var(--border);border-radius:14px;border-top-left-radius:4px;width:fit-content;display:none}
+.typing-indicator.show{display:flex}
+.typing-dot{width:7px;height:7px;background:var(--muted);border-radius:50%;animation:typingBounce 1.2s infinite}
+.typing-dot:nth-child(2){animation-delay:.2s}.typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.chat-input-area{padding:.85rem 1.1rem;border-top:1px solid var(--border);display:flex;gap:.6rem}
+.quick-btns{display:flex;gap:.35rem;padding:.5rem 1.1rem 0;flex-wrap:wrap}
+.qb{font-size:.7rem;padding:.3rem .7rem;background:var(--surface2);border:1px solid var(--border2);border-radius:20px;cursor:pointer;color:var(--muted2);transition:all .15s;white-space:nowrap}
+.qb:hover{border-color:var(--purple);color:var(--purple)}
+.chat-inp{flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:.6rem .9rem;color:var(--text);font-family:'Outfit',sans-serif;font-size:.83rem;outline:none}
+.chat-inp:focus{border-color:var(--purple)}
+.chat-inp::placeholder{color:var(--muted)}
+.chat-send{background:linear-gradient(135deg,var(--blue),var(--purple));border:none;color:#fff;width:38px;height:38px;border-radius:10px;cursor:pointer;font-size:1rem;transition:transform .15s;flex-shrink:0}
+.chat-send:hover{transform:scale(1.06)}
+
+/* ── XP STORE / REWARDS ── */
+.store-banner{background:linear-gradient(135deg,rgba(155,111,255,.1),rgba(79,142,247,.1));border:1px solid rgba(155,111,255,.2);border-radius:18px;padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.store-banner::before{content:'🛒';position:absolute;right:6rem;top:50%;transform:translateY(-50%);font-size:5rem;opacity:.06}
+.store-banner-left h2{font-size:1.4rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.3rem}
+.store-banner-left p{font-size:.83rem;color:var(--muted2);font-weight:300}
+.store-balance{background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.25);border-radius:14px;padding:.85rem 1.25rem;text-align:right}
+.sb-val{font-size:1.6rem;font-weight:800;color:var(--yellow);letter-spacing:-.02em}
+.sb-lbl{font-size:.68rem;color:var(--muted2)}
+.store-tabs{display:flex;gap:.35rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:.75rem}
+.store-tab{padding:.4rem .9rem;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;color:var(--muted2);transition:all .15s}
+.store-tab.active{color:var(--blue);background:rgba(79,142,247,.1)}
+.store-tab:hover{color:var(--text)}
+.store-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.store-item{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color .2s,transform .15s;position:relative}
+.store-item:hover{transform:translateY(-3px);border-color:var(--border2)}
+.store-item.rare{border-color:rgba(155,111,255,.25)}
+.store-item.epic{border-color:rgba(255,209,102,.3)}
+.store-item.legendary{border-color:rgba(255,140,66,.4);box-shadow:0 0 20px rgba(255,140,66,.08)}
+.si-rarity{position:absolute;top:.6rem;right:.6rem;font-size:.58rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .5rem;border-radius:20px}
+.si-rarity.rare{background:rgba(155,111,255,.15);color:var(--purple);border:1px solid rgba(155,111,255,.25)}
+.si-rarity.epic{background:rgba(255,209,102,.12);color:var(--yellow);border:1px solid rgba(255,209,102,.25)}
+.si-rarity.legendary{background:rgba(255,140,66,.12);color:var(--orange);border:1px solid rgba(255,140,66,.25)}
+.si-img{height:130px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;position:relative}
+.si-img::after{content:'';position:absolute;inset:0;opacity:.12}
+.si-bg-purple{background:linear-gradient(135deg,#1A0D3C,#2D1A5A)}.si-bg-blue{background:linear-gradient(135deg,#0D1F3C,#1A3A6B)}
+.si-bg-orange{background:linear-gradient(135deg,#2A1A0D,#5A3A1A)}.si-bg-green{background:linear-gradient(135deg,#0D2A1E,#1A5A3C)}
+.si-bg-yellow{background:linear-gradient(135deg,#2A2200,#5A4A00)}.si-bg-teal{background:linear-gradient(135deg,#0D2A2A,#1A5A5A)}
+.si-body{padding:1rem}
+.si-category{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.3rem}
+.si-name{font-size:.92rem;font-weight:700;margin-bottom:.25rem;line-height:1.3}
+.si-desc{font-size:.75rem;color:var(--muted2);line-height:1.55;margin-bottom:.85rem;font-weight:300}
+.si-footer{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;border-top:1px solid var(--border)}
+.si-price{display:flex;align-items:center;gap:.35rem}
+.si-price-v{font-size:1rem;font-weight:800;color:var(--yellow)}
+.si-price-l{font-size:.65rem;color:var(--muted2)}
+.si-btn{padding:.4rem .85rem;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.73rem;font-weight:700;cursor:pointer;border:none;transition:all .15s}
+.si-btn.can-afford{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff}
+.si-btn.can-afford:hover{transform:scale(1.04)}
+.si-btn.cant-afford{background:var(--surface2);color:var(--muted);border:1px solid var(--border);cursor:not-allowed}
+.si-btn.owned{background:rgba(46,204,142,.1);color:var(--green);border:1px solid rgba(46,204,142,.2);cursor:default}
+.xp-needed{font-size:.62rem;color:var(--red);margin-top:.2rem;display:block}
+/* devices section */
+.device-banner{background:linear-gradient(135deg,rgba(255,209,102,.06),rgba(255,140,66,.06));border:1px solid rgba(255,209,102,.15);border-radius:14px;padding:1rem 1.4rem;margin-bottom:1rem;display:flex;align-items:center;gap:.85rem}
+.db-icon{font-size:1.8rem}
+.db-text{font-size:.82rem;color:var(--muted2);line-height:1.55;font-weight:300}
+.db-text strong{color:var(--yellow)}
+
+/* ── COURSES ── */
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem}
+.cc{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .2s}
+.cc:hover{border-color:var(--border2);transform:translateY(-3px)}
+.cc-banner{height:110px;display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+.cb1{background:linear-gradient(135deg,#0D1F3C,#1A3A6B)}.cb2{background:linear-gradient(135deg,#1A0D3C,#3A1A6B)}
+.cb3{background:linear-gradient(135deg,#0D2A1E,#1A5A3C)}.cb4{background:linear-gradient(135deg,#2A1A0D,#5A3A1A)}
+.cb5{background:linear-gradient(135deg,#2A0D1A,#5A1A3A)}.cb6{background:linear-gradient(135deg,#0D2A2A,#1A5A5A)}
+.cc-lock-overlay{position:absolute;inset:0;background:rgba(8,11,20,.7);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;backdrop-filter:blur(2px)}
+.cc-lock-overlay.hidden{display:none}
+.cc-body{padding:.85rem}.cc-cat{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.28rem}
+.cc-name{font-size:.88rem;font-weight:700;line-height:1.3;margin-bottom:.28rem}
+.cc-meta{font-size:.68rem;color:var(--muted2);display:flex;gap:.55rem;margin-bottom:.45rem}
+.cc-tag{background:rgba(255,255,255,.05);border:1px solid var(--border);font-size:.6rem;padding:.12rem .42rem;border-radius:5px;color:var(--muted2)}
+.cc-foot{display:flex;align-items:center;justify-content:space-between;padding:.6rem .82rem;border-top:1px solid var(--border)}
+.cc-price{font-size:.88rem;font-weight:800;color:var(--green)}.cc-price.free{color:var(--muted2);font-weight:500;font-size:.76rem}
+.cc-btn{background:var(--surface2);border:1px solid var(--border2);color:var(--text);font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:600;padding:.32rem .72rem;border-radius:7px;cursor:pointer;transition:all .15s}
+.cc-btn:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+.cc-prog{padding:0 .82rem .6rem}
+.cc-prog-lbl{font-size:.66rem;color:var(--muted2);display:flex;justify-content:space-between;margin-bottom:.28rem}
+/* XP gate badge on courses */
+.xp-gate{display:inline-flex;align-items:center;gap:.3rem;background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.2);color:var(--yellow);font-size:.62rem;font-weight:700;padding:.18rem .5rem;border-radius:20px}
+
+/* ── HIRE ── */
+.hire-layout{display:grid;grid-template-columns:240px 1fr;gap:1.2rem;min-height:calc(100vh - 140px)}
+.hire-filters{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem;align-self:start;position:sticky;top:1rem}
+.filter-title{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:.8rem}
+.filter-sec{margin-bottom:1rem}.filter-sec-lbl{font-size:.73rem;font-weight:600;color:var(--text);margin-bottom:.45rem}
+.filter-options{display:flex;flex-direction:column;gap:.28rem}
+.f-opt{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--muted2);cursor:pointer;padding:.28rem .38rem;border-radius:6px;transition:all .15s}
+.f-opt:hover{color:var(--text);background:var(--surface2)}.f-opt input{accent-color:var(--blue);width:13px;height:13px}
+.filter-range{width:100%;accent-color:var(--blue);margin-top:.32rem}
+.range-labels{display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-top:.18rem}
+.search-bar{display:flex;gap:.45rem;margin-bottom:1rem}
+.search-inp{flex:1;background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:.6rem .9rem;color:var(--text);font-family:'Outfit',sans-serif;font-size:.83rem;outline:none}
+.search-inp:focus{border-color:var(--blue)}.search-inp::placeholder{color:var(--muted)}
+.search-btn{background:var(--blue);border:none;color:#fff;padding:.6rem 1rem;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer}
+.hire-results{display:flex;flex-direction:column;gap:.7rem}
+.talent-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.3rem;display:grid;grid-template-columns:50px 1fr auto;gap:1rem;align-items:center;transition:border-color .2s,transform .15s;cursor:pointer}
+.talent-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.talent-av{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:800;flex-shrink:0}
+.tc-name{font-size:.9rem;font-weight:700;margin-bottom:.18rem}.tc-role{font-size:.75rem;color:var(--muted2);margin-bottom:.38rem}
+.tc-skills{display:flex;gap:.32rem;flex-wrap:wrap;margin-bottom:.45rem}
+.tc-skill{font-size:.62rem;font-weight:600;padding:.15rem .45rem;border-radius:6px}
+.sk-bl{background:rgba(79,142,247,.1);color:var(--blue);border:1px solid rgba(79,142,247,.18)}.sk-pu{background:rgba(155,111,255,.1);color:var(--purple);border:1px solid rgba(155,111,255,.18)}
+.sk-gr{background:rgba(46,204,142,.1);color:var(--green);border:1px solid rgba(46,204,142,.18)}.sk-or{background:rgba(255,140,66,.1);color:var(--orange);border:1px solid rgba(255,140,66,.18)}
+.sk-pk{background:rgba(255,95,160,.1);color:var(--pink);border:1px solid rgba(255,95,160,.18)}.sk-tl{background:rgba(46,196,182,.1);color:var(--teal);border:1px solid rgba(46,196,182,.18)}
+.tc-meta{display:flex;gap:.7rem;font-size:.68rem;color:var(--muted2)}.tc-meta strong{color:var(--text)}
+.tc-right{display:flex;flex-direction:column;align-items:flex-end;gap:.55rem}
+.tc-rate-v{font-size:1rem;font-weight:800;color:var(--green)}.tc-rate-l{font-size:.62rem;color:var(--muted2)}
+.tc-cert{display:flex;align-items:center;gap:.32rem;background:rgba(255,209,102,.07);border:1px solid rgba(255,209,102,.18);color:var(--yellow);font-size:.62rem;font-weight:700;padding:.18rem .5rem;border-radius:20px}
+.hire-btn{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border:none;padding:.5rem 1rem;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;transition:transform .15s;white-space:nowrap}
+.hire-btn:hover{transform:scale(1.04)}
+.avail-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.avail-dot.on{background:var(--green);box-shadow:0 0 5px var(--green)}.avail-dot.off{background:var(--muted)}
+.talent-detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(12px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.talent-detail-overlay.show{opacity:1;pointer-events:all}
+.td-modal{background:var(--surface);border:1px solid rgba(155,111,255,.22);border-radius:20px;padding:1.75rem;width:90%;max-width:560px;max-height:85vh;overflow-y:auto;animation:popIn .3s ease}
+@keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.td-av{width:60px;height:60px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;flex-shrink:0}
+.td-name{font-size:1.2rem;font-weight:800;margin-bottom:.2rem}.td-role{font-size:.82rem;color:var(--muted2);margin-bottom:.45rem}
+.td-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-bottom:1.1rem}
+.td-stat{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:.7rem;text-align:center}
+.td-stat-v{font-size:1rem;font-weight:800}.td-stat-l{font-size:.62rem;color:var(--muted2);margin-top:.12rem}
+.td-sec{margin-bottom:1.1rem}
+.td-sec-title{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:.6rem}
+.cert-chip{display:inline-flex;align-items:center;gap:.35rem;background:rgba(255,209,102,.07);border:1px solid rgba(255,209,102,.18);color:var(--yellow);font-size:.72rem;font-weight:600;padding:.25rem .7rem;border-radius:20px;margin:.18rem}
+.td-actions{display:flex;gap:.7rem;margin-top:1.4rem}
+.td-btn-p{flex:1;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border:none;padding:.75rem;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:transform .15s}
+.td-btn-p:hover{transform:scale(1.02)}
+.td-btn-s{flex:1;background:transparent;color:var(--muted2);border:1px solid var(--border2);padding:.75rem;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer}
+
+/* ── JOBS ── */
+.job-filters{display:flex;gap:.45rem;margin-bottom:1.1rem;flex-wrap:wrap}
+.jf-chip{font-size:.73rem;font-weight:600;padding:.32rem .8rem;border-radius:20px;cursor:pointer;transition:all .15s}
+.jf-chip.active{background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.22);color:var(--blue)}
+.jf-chip.idle{background:var(--surface2);border:1px solid var(--border);color:var(--muted2)}
+.jf-chip:hover{color:var(--text)}
+.job-list{display:flex;flex-direction:column;gap:.62rem}
+.job-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.3rem;display:grid;grid-template-columns:50px 1fr auto;gap:1rem;align-items:center;cursor:pointer;transition:border-color .2s,transform .15s}
+.job-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.job-logo{width:50px;height:50px;border-radius:12px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.jc-title{font-size:.9rem;font-weight:700;margin-bottom:.18rem}.jc-company{font-size:.75rem;color:var(--muted2);margin-bottom:.38rem}
+.jc-tags{display:flex;gap:.32rem;flex-wrap:wrap}
+.jc-tag{font-size:.62rem;font-weight:600;padding:.15rem .45rem;border-radius:6px}
+.jt-bl{background:rgba(79,142,247,.1);color:var(--blue);border:1px solid rgba(79,142,247,.18)}.jt-gr{background:rgba(46,204,142,.1);color:var(--green);border:1px solid rgba(46,204,142,.18)}
+.jt-pu{background:rgba(155,111,255,.1);color:var(--purple);border:1px solid rgba(155,111,255,.18)}.jt-or{background:rgba(255,140,66,.1);color:var(--orange);border:1px solid rgba(255,140,66,.18)}
+.match-col{text-align:center;display:flex;flex-direction:column;align-items:center;gap:.45rem}
+.match-ring{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800}
+.match-ring.high{background:rgba(46,204,142,.1);border:2px solid var(--green);color:var(--green)}.match-ring.mid{background:rgba(79,142,247,.1);border:2px solid var(--blue);color:var(--blue)}.match-ring.low{background:rgba(255,255,255,.03);border:2px solid var(--muted);color:var(--muted)}
+.apply-btn{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border:none;padding:.5rem 1rem;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;transition:transform .15s}
+.apply-btn:hover{transform:scale(1.04)}
+.locked-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.75rem;padding:.5rem 1rem;border-radius:8px;cursor:not-allowed}
+
+/* LEADERBOARD */
+.lb-podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.4rem;align-items:end}
+.pod{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.2rem 1rem;text-align:center;position:relative;overflow:hidden}
+.pod::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.pod-1::before{background:linear-gradient(90deg,var(--yellow),var(--orange))}.pod-2::before{background:linear-gradient(90deg,#708090,#C0C0C0)}.pod-3::before{background:linear-gradient(90deg,var(--orange),#8B6914)}
+.pod-rank{font-size:1.5rem;margin-bottom:.35rem}
+.pod-av{width:44px;height:44px;border-radius:50%;margin:0 auto .38rem;display:flex;align-items:center;justify-content:center;font-size:1.05rem;font-weight:800}
+.av-gld{background:linear-gradient(135deg,#B8860B,#FFD700)}.av-slv{background:linear-gradient(135deg,#708090,#C0C0C0)}.av-brz{background:linear-gradient(135deg,#8B4513,#CD7F32)}
+.pod-name{font-size:.8rem;font-weight:700}.pod-xp{font-size:.7rem;color:var(--yellow);font-weight:600;margin-top:.18rem}
+.lb-table{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.lb-row{display:grid;grid-template-columns:42px 1fr 75px 75px;align-items:center;gap:.8rem;padding:.82rem 1.1rem;border-bottom:1px solid var(--border);transition:background .15s}
+.lb-row:last-child{border-bottom:none}.lb-row:hover{background:var(--surface2)}.lb-row.me{background:rgba(79,142,247,.05);border-left:3px solid var(--blue)}
+.lb-rank-n{font-size:.8rem;font-weight:700;color:var(--muted);text-align:center}
+.lb-user{display:flex;align-items:center;gap:.62rem}.lb-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800}
+.lb-name{font-size:.83rem;font-weight:600}.lb-lvl{font-size:.65rem;color:var(--muted2)}
+.lb-streak{font-size:.75rem;font-weight:600;color:var(--orange)}.lb-xp{font-size:.83rem;font-weight:700;color:var(--yellow)}
+
+/* LESSON */
+.lesson-shell{display:grid;grid-template-columns:1fr 285px;gap:1.1rem;height:calc(100vh - 125px)}
+.lesson-body{display:flex;flex-direction:column;gap:.9rem;overflow-y:auto}
+.lesson-top{display:flex;align-items:center;gap:.8rem;padding-bottom:.8rem;border-bottom:1px solid var(--border)}
+.back-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted2);font-family:'Outfit',sans-serif;font-size:.75rem;padding:.35rem .75rem;border-radius:8px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:.32rem}
+.back-btn:hover{color:var(--text);border-color:var(--border2)}
+.lesson-hd{flex:1}.lesson-course-tag{font-size:.7rem;color:var(--blue);font-weight:600;margin-bottom:.12rem}.lesson-title{font-size:1.02rem;font-weight:700;letter-spacing:-.02em}
+.xp-pill-sm{display:flex;align-items:center;gap:.32rem;background:rgba(255,209,102,.07);border:1px solid rgba(255,209,102,.18);color:var(--yellow);font-size:.7rem;font-weight:700;padding:.25rem .6rem;border-radius:20px}
+.lesson-content-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem;flex:1}
+.l-badge{display:inline-flex;align-items:center;gap:.32rem;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .52rem;border-radius:20px;margin-bottom:.82rem}
+.lb-learn{background:rgba(79,142,247,.1);color:var(--blue);border:1px solid rgba(79,142,247,.18)}.lb-quiz{background:rgba(155,111,255,.1);color:var(--purple);border:1px solid rgba(155,111,255,.18)}.lb-ch{background:rgba(255,140,66,.1);color:var(--orange);border:1px solid rgba(255,140,66,.18)}
+.lesson-content-card h2{font-size:1.15rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.6rem}
+.lesson-content-card p{font-size:.83rem;color:var(--muted2);line-height:1.8;margin-bottom:.82rem;font-weight:300}
+.lesson-content-card p strong{color:var(--text);font-weight:600}
+.code-blk{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1rem;margin:.8rem 0;font-family:'JetBrains Mono',monospace;font-size:.76rem;color:#E8EAF0;line-height:1.7;overflow-x:auto}
+.kw{color:var(--purple)}.str{color:var(--green)}.fn{color:var(--blue)}.cm{color:var(--muted)}
+.tip-bx{background:rgba(79,142,247,.04);border:1px solid rgba(79,142,247,.11);border-radius:10px;padding:.85rem;margin:.8rem 0;display:flex;gap:.62rem}
+.tip-bx p{margin:0}
+.quiz-q{font-size:.92rem;font-weight:700;line-height:1.5;margin-bottom:.9rem}
+.quiz-opts{display:flex;flex-direction:column;gap:.45rem}
+.q-opt{padding:.8rem .95rem;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-size:.83rem;font-weight:500;transition:all .15s;display:flex;align-items:center;gap:.65rem}
+.q-opt:hover{border-color:var(--blue);background:rgba(79,142,247,.05)}.q-opt.correct{border-color:var(--green);background:rgba(46,204,142,.06);color:var(--green)}.q-opt.wrong{border-color:var(--pink);background:rgba(255,95,160,.06);color:var(--pink)}.q-opt.sel{border-color:var(--blue);background:rgba(79,142,247,.07)}
+.opt-l{width:23px;height:23px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0}
+.qfb{padding:.82rem;border-radius:10px;font-size:.8rem;font-weight:500;margin-top:.82rem;display:none}
+.qfb.show{display:flex;gap:.45rem;align-items:flex-start}
+.qfb.ok{background:rgba(46,204,142,.06);border:1px solid rgba(46,204,142,.16);color:var(--green)}.qfb.no{background:rgba(255,95,160,.06);border:1px solid rgba(255,95,160,.16);color:var(--pink)}
+.chk-btn{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border:none;padding:.72rem 1.5rem;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;margin-top:.95rem;transition:transform .15s}
+.chk-btn:hover{transform:scale(1.02)}
+.nxt-btn{background:var(--green);color:#fff;border:none;padding:.72rem 1.5rem;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;margin-top:.55rem;display:none;transition:transform .15s}
+.nxt-btn.show{display:block}.nxt-btn:hover{transform:scale(1.02)}
+.lesson-side{display:flex;flex-direction:column;gap:.82rem;overflow-y:auto}
+.ls-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.95rem}
+.ls-title{font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:.72rem}
+.mod-list{display:flex;flex-direction:column;gap:.25rem}
+.mod-item{display:flex;align-items:center;gap:.55rem;padding:.48rem .58rem;border-radius:7px;cursor:pointer;font-size:.78rem;transition:background .15s}
+.mod-item:hover{background:var(--surface2)}.mod-item.done{color:var(--muted)}.mod-item.cur{background:rgba(79,142,247,.07);color:var(--blue)}
+.mi-ic{width:19px;height:19px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0}
+.ic-done{background:rgba(46,204,142,.1);color:var(--green)}.ic-cur{background:rgba(79,142,247,.1);color:var(--blue)}.ic-lk{background:rgba(255,255,255,.04);color:var(--muted)}
+.mi-xp{margin-left:auto;font-size:.6rem;font-weight:600;color:var(--yellow)}
+.ai-box{background:linear-gradient(135deg,rgba(155,111,255,.06),rgba(79,142,247,.06));border:1px solid rgba(155,111,255,.16);border-radius:12px;padding:.95rem}
+.ai-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:.95rem;margin-bottom:.62rem}
+.ai-msg{font-size:.78rem;color:var(--muted2);line-height:1.65;margin-bottom:.72rem;font-weight:300}
+.ai-row{display:flex;gap:.38rem}
+.ai-inp{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:.42rem .68rem;color:var(--text);font-family:'Outfit',sans-serif;font-size:.76rem;outline:none}
+.ai-inp:focus{border-color:var(--purple)}
+.ai-snd{background:var(--purple);border:none;color:#fff;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:.82rem;transition:opacity .15s;flex-shrink:0}
+.ai-snd:hover{opacity:.85}
+
+/* CERT */
+.cert-wrap{display:flex;flex-direction:column;align-items:center;gap:1.6rem}
+.cert-card{width:100%;max-width:640px;background:linear-gradient(135deg,#0D1422,#161B2E);border:1px solid rgba(155,111,255,.22);border-radius:20px;padding:2.5rem;text-align:center;position:relative;overflow:hidden}
+.cert-card::before{content:'';position:absolute;top:-70px;left:50%;transform:translateX(-50%);width:340px;height:340px;background:radial-gradient(circle,rgba(155,111,255,.07),transparent 70%)}
+.cert-card::after{content:'';position:absolute;inset:9px;border:1px solid rgba(155,111,255,.07);border-radius:14px;pointer-events:none}
+.cert-logo-t{font-size:1.7rem;font-weight:900;letter-spacing:-.04em}.cert-logo-t span{color:var(--blue)}
+.cert-subt{font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted2);margin-bottom:1.6rem}
+.cert-name{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.38rem}
+.cert-course-n{font-size:1rem;font-weight:700;color:var(--yellow);margin-bottom:1.6rem}
+.cert-id{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);background:rgba(255,255,255,.04);padding:.28rem .75rem;border-radius:20px;display:inline-block}
+.cert-acts{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+.c-btn{padding:.65rem 1.25rem;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;transition:transform .15s}
+.c-btn:hover{transform:scale(1.04)}.cb-p{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border:none}.cb-s{background:transparent;color:var(--muted2);border:1px solid var(--border2)}
+
+/* POST JOB */
+.post-job-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.6rem;max-width:620px}
+.field-group{display:flex;flex-direction:column;gap:.45rem;margin-bottom:1rem}
+.field-lbl{font-size:.75rem;font-weight:600;color:var(--text)}
+.field-inp{background:var(--bg);border:1px solid var(--border2);border-radius:10px;padding:.6rem .95rem;color:var(--text);font-family:'Outfit',sans-serif;font-size:.83rem;outline:none;width:100%;transition:border-color .15s}
+.field-inp:focus{border-color:var(--blue)}.field-inp::placeholder{color:var(--muted)}
+textarea.field-inp{min-height:85px;resize:vertical;line-height:1.6}
+select.field-inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A607A' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center}
+select.field-inp option{background:var(--surface)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.skill-picker{display:flex;flex-wrap:wrap;gap:.38rem;margin-top:.28rem}
+.sk-pick{font-size:.7rem;font-weight:600;padding:.28rem .65rem;border-radius:20px;cursor:pointer;border:1px solid var(--border2);color:var(--muted2);background:var(--surface2);transition:all .15s}
+.sk-pick.sel{border-color:var(--blue);color:var(--blue);background:rgba(79,142,247,.09)}
+.post-btn{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border:none;padding:.8rem 1.85rem;border-radius:12px;font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:transform .15s}
+.post-btn:hover{transform:scale(1.02)}
+
+/* ACHIEVEMENTS */
+.ach-row{display:flex;gap:.62rem;overflow-x:auto;padding-bottom:.22rem}
+.ach{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.62rem .88rem;display:flex;align-items:center;gap:.62rem;white-space:nowrap;flex-shrink:0}
+.ach.on{border-color:rgba(255,209,102,.22);background:rgba(255,209,102,.04)}.ach.off{opacity:.32;filter:grayscale(1)}
+.ach-ic{font-size:1.35rem}.ach-n{font-size:.76rem;font-weight:600}.ach-d{font-size:.62rem;color:var(--muted2)}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.6rem;right:1.6rem;background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:.82rem 1.1rem;display:flex;align-items:center;gap:.62rem;font-size:.83rem;font-weight:600;z-index:999;transform:translateX(140%);transition:transform .3s ease;max-width:270px;box-shadow:0 8px 28px rgba(0,0,0,.45)}
+.toast.show{transform:translateX(0)}
+
+/* MODALS */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.76);backdrop-filter:blur(10px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.mo.show{opacity:1;pointer-events:all}
+.mo-box{background:var(--surface);border:1px solid rgba(155,111,255,.28);border-radius:22px;padding:2.3rem 2.1rem;text-align:center;max-width:400px;width:90%;animation:popIn .4s ease}
+.mo-em{font-size:3.2rem;margin-bottom:.8rem;animation:bob .6s infinite alternate}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+.mo-h{font-size:1.7rem;font-weight:900;letter-spacing:-.04em;background:linear-gradient(135deg,var(--yellow),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.mo-p{font-size:.83rem;color:var(--muted2);line-height:1.6;margin:.45rem 0 1.2rem}
+.mo-rews{display:flex;justify-content:center;gap:1.4rem;margin-bottom:1.6rem}
+.mo-rew-v{font-size:1.25rem;font-weight:800}.mo-rew-l{font-size:.63rem;color:var(--muted2)}
+.mo-cta{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border:none;padding:.75rem 2.1rem;border-radius:12px;font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;transition:transform .15s}
+.mo-cta:hover{transform:scale(1.04)}
+/* STREAK BREAK MODAL */
+.streak-break-box{border-color:rgba(255,77,77,.3)!important}
+.streak-break-box .mo-h{background:linear-gradient(135deg,var(--red),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+/* PARTICLES */
+.pt{position:fixed;pointer-events:none;z-index:400;border-radius:50%;animation:fly 1.2s ease-out forwards}
+@keyframes fly{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--tx),var(--ty)) scale(0);opacity:0}}
+
+@media(max-width:960px){
+  .app-shell{grid-template-columns:1fr}.sidebar{display:none}
+  .stats-row{grid-template-columns:1fr 1fr}.cg{grid-template-columns:1fr 1fr}
+  .hire-layout{grid-template-columns:1fr}.hire-filters{display:none}
+  .lesson-shell{grid-template-columns:1fr}.lesson-side{display:none}
+  .lb-podium{grid-template-columns:1fr 1fr 1fr}.store-grid{grid-template-columns:1fr 1fr}
+  .agent-layout{grid-template-columns:1fr}.agent-sidebar{display:none}
+  .freeze-cards{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div class="toast" id="toast"><span id="t-ic">⚡</span><span id="t-msg">XP earned!</span></div>
+
+<!-- LEVEL UP MODAL -->
+<div class="mo" id="modal">
+  <div class="mo-box">
+    <div class="mo-em">🎉</div>
+    <div class="mo-h">Level Up!</div>
+    <p class="mo-p">You've reached <strong style="color:var(--purple)">Level 8!</strong> You're now in the top 12% of all learners. New jobs just unlocked for you.</p>
+    <div class="mo-rews">
+      <div><div class="mo-rew-v" style="color:var(--yellow)">+500</div><div class="mo-rew-l">Bonus XP</div></div>
+      <div><div class="mo-rew-v" style="color:var(--purple)">1</div><div class="mo-rew-l">New badge</div></div>
+      <div><div class="mo-rew-v" style="color:var(--green)">5</div><div class="mo-rew-l">Jobs unlocked</div></div>
+    </div>
+    <button class="mo-cta" onclick="closeMo()">Keep going →</button>
+  </div>
+</div>
+
+<!-- STREAK BREAK MODAL -->
+<div class="mo" id="streakModal">
+  <div class="mo-box streak-break-box">
+    <div class="mo-em">💔</div>
+    <div class="mo-h">Streak at risk!</div>
+    <p class="mo-p">You haven't completed a lesson today. Your <strong style="color:var(--orange)">12-day streak</strong> will break at midnight unless you act now.</p>
+    <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem">
+      <button style="background:rgba(46,204,142,.1);border:1px solid rgba(46,204,142,.25);color:var(--green);border-radius:10px;padding:.7rem;font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer" onclick="useFreeze()">🛡️ Use free shield (1 of 2 left this month)</button>
+      <button style="background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.25);color:var(--yellow);border-radius:10px;padding:.7rem;font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer" onclick="useXpFreeze()">⚡ Spend 500 XP to freeze streak</button>
+      <button style="background:rgba(155,111,255,.1);border:1px solid rgba(155,111,255,.25);color:var(--purple);border-radius:10px;padding:.7rem;font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer" onclick="paySave()">💳 Pay ₹29 to protect streak</button>
+      <button style="background:transparent;border:1px solid var(--border);color:var(--muted2);border-radius:10px;padding:.55rem;font-family:'Outfit',sans-serif;font-size:.82rem;cursor:pointer" onclick="closeSM()">Go do a lesson instead →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TALENT DETAIL -->
+<div class="talent-detail-overlay" id="tdOverlay">
+  <div class="td-modal" id="tdModal"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="showPage('dashboard')">Learn<span>Quest</span></div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" id="nt-dashboard" onclick="showPage('dashboard')">Dashboard</div>
+    <div class="nav-tab" id="nt-courses" onclick="showPage('courses')">Courses</div>
+    <div class="nav-tab" id="nt-lesson" onclick="showPage('lesson')">Learn</div>
+    <div class="nav-tab" id="nt-streak" onclick="showPage('streak')">🔥 Streak</div>
+    <div class="nav-tab" id="nt-hire" onclick="showPage('hire')">Hire</div>
+    <div class="nav-tab" id="nt-jobs" onclick="showPage('jobs')">Find Jobs</div>
+    <div class="nav-tab" id="nt-agent" onclick="showPage('agent')">🤖 AI Agent</div>
+    <div class="nav-tab" id="nt-store" onclick="showPage('store')">🏪 Store</div>
+  </div>
+  <div class="nav-right">
+    <div class="mode-toggle">
+      <div class="mode-btn active" onclick="setMode('learner',this)">Learner</div>
+      <div class="mode-btn" onclick="setMode('hirer',this)">Hirer</div>
+    </div>
+    <div class="nav-pill" style="color:var(--yellow)" id="navXP">⚡ <span id="xpDisplay">1,240</span> XP</div>
+    <div class="nav-pill streak-nav" style="color:var(--orange)" onclick="showPage('streak')" id="navStreak">
+      🔥 <span id="streakDisplay">12</span>
+      <div class="streak-warning" id="streakWarning" style="display:none"></div>
+    </div>
+    <div class="av" onclick="showPage('certificate')">P</div>
+  </div>
+</nav>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="lvl-card">
+      <div class="lvl-row"><span class="lvl-l">Level</span><span class="lvl-n" id="sbLevel">Lv. 4</span></div>
+      <div class="xp-bg"><div class="xp-fill" id="sbXpFill" style="width:35%"></div></div>
+      <div class="xp-sub" id="sbXpSub">1,240 / 3,500 XP to Lv.5</div>
+    </div>
+    <div class="streak-mini">
+      <div class="streak-fire">🔥</div>
+      <div class="streak-info">
+        <div class="streak-count" id="sbStreak">12 days</div>
+        <div class="streak-label">Current streak</div>
+      </div>
+      <div class="streak-shield" onclick="showPage('streak')" title="Manage streak">🛡️</div>
+    </div>
+    <div class="sb-sec">Learn</div>
+    <div class="sb-item active" onclick="showPage('dashboard')"><span>🏠</span> Dashboard</div>
+    <div class="sb-item" onclick="showPage('courses')"><span>📚</span> My Courses <span class="sb-badge b">3</span></div>
+    <div class="sb-item" onclick="showPage('lesson')"><span>⚡</span> Continue</div>
+    <div class="sb-item" onclick="showPage('streak')"><span>🔥</span> Streak <span class="sb-badge o">!</span></div>
+    <div class="sb-item" onclick="showPage('leaderboard')"><span>🏆</span> Leaderboard</div>
+    <div class="sb-sec">Hire & Work</div>
+    <div class="sb-item" onclick="showPage('hire')"><span>🔍</span> Hire Talent</div>
+    <div class="sb-item" onclick="showPage('post')"><span>📢</span> Post a Job</div>
+    <div class="sb-item" onclick="showPage('jobs')"><span>💼</span> Find Jobs <span class="sb-badge b">8</span></div>
+    <div class="sb-sec">Tools</div>
+    <div class="sb-item" onclick="showPage('agent')"><span>🤖</span> AI Agent</div>
+    <div class="sb-item" onclick="showPage('store')"><span>🏪</span> XP Store</div>
+    <div class="sb-item" onclick="showPage('certificate')"><span>🎓</span> Certificates</div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ── DASHBOARD ── -->
+    <div class="page active" id="page-dashboard">
+      <div class="pg-title">Good evening, <span style="background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Pranav</span> 👋</div>
+      <div class="pg-sub">Level 4 · 12-day streak · 2,260 XP to next level. Every lesson counts.</div>
+      <div class="stats-row">
+        <div class="stat bl"><div class="stat-i">⚡</div><div class="stat-v bl" id="dashXP">1,240</div><div class="stat-l">Total XP</div></div>
+        <div class="stat pu"><div class="stat-i">📚</div><div class="stat-v pu">3</div><div class="stat-l">Courses enrolled</div></div>
+        <div class="stat gr"><div class="stat-i">💼</div><div class="stat-v gr">8</div><div class="stat-l">Job matches</div></div>
+        <div class="stat or"><div class="stat-i">🔥</div><div class="stat-v or" id="dashStreak">12</div><div class="stat-l">Day streak</div></div>
+      </div>
+      <!-- XP INFO BANNER -->
+      <div style="background:rgba(255,209,102,.05);border:1px solid rgba(255,209,102,.15);border-radius:14px;padding:1rem 1.25rem;margin-bottom:1.4rem;display:flex;align-items:center;gap:1rem">
+        <div style="font-size:1.6rem">📊</div>
+        <div style="flex:1">
+          <div style="font-size:.85rem;font-weight:700;margin-bottom:.2rem">How XP works on LearnQuest</div>
+          <div style="font-size:.78rem;color:var(--muted2);line-height:1.6">XP is earned in small amounts per action — lessons give 15–40 XP, quizzes give 25–60 XP, challenges give 50–100 XP. You need <strong style="color:var(--yellow)">3,500 XP</strong> to reach Level 5. Unlock courses, jobs, and store items by reaching required XP milestones.</div>
+        </div>
+        <div style="text-align:center;flex-shrink:0">
+          <div style="font-size:1.3rem;font-weight:800;color:var(--yellow)">1,240</div>
+          <div style="font-size:.65rem;color:var(--muted2)">your XP</div>
+        </div>
+      </div>
+      <div style="margin-bottom:1.4rem">
+        <div class="sec-head"><div class="sec-title">⚔️ Current Quest</div><div class="sec-link" onclick="showPage('lesson')">Continue →</div></div>
+        <div class="quest-card">
+          <div>
+            <div class="q-badge">🔵 Web Development</div>
+            <div class="q-title">JavaScript Fundamentals</div>
+            <div class="q-desc">Master the language of the web through 24 interactive challenges. Small XP per lesson — but they add up fast.</div>
+            <div class="q-prog-row"><span style="color:var(--muted2);font-size:.7rem">Module 3 of 8 — Functions & Scope</span><span class="q-pct">38%</span></div>
+            <div class="prog-bg"><div class="prog-fill" style="width:38%"></div></div>
+            <div class="q-meta">
+              <div class="q-mi">⚡ <strong>+25 XP/lesson</strong> avg</div>
+              <div class="q-mi">🏅 <strong>Certificate</strong> at completion</div>
+              <div class="q-mi">💼 <strong>8 jobs</strong> unlocked after</div>
+            </div>
+          </div>
+          <button class="res-btn" onclick="doLesson()">▶ Resume</button>
+        </div>
+      </div>
+      <div style="margin-bottom:1.4rem">
+        <div class="sec-head"><div class="sec-title">🏅 Achievements</div></div>
+        <div class="ach-row">
+          <div class="ach on"><div class="ach-ic">🔥</div><div><div class="ach-n">On Fire</div><div class="ach-d">10-day streak</div></div></div>
+          <div class="ach on"><div class="ach-ic">⚡</div><div><div class="ach-n">Quick Learner</div><div class="ach-d">5 lessons/day</div></div></div>
+          <div class="ach on"><div class="ach-ic">🎯</div><div><div class="ach-n">Sharp Shooter</div><div class="ach-d">10 perfect quizzes</div></div></div>
+          <div class="ach off"><div class="ach-ic">💼</div><div><div class="ach-n">Hired</div><div class="ach-d">Get first job match</div></div></div>
+          <div class="ach off"><div class="ach-ic">🎓</div><div><div class="ach-n">Graduate</div><div class="ach-d">Complete a course</div></div></div>
+          <div class="ach off"><div class="ach-ic">🏆</div><div><div class="ach-n">Top 10</div><div class="ach-d">Reach leaderboard</div></div></div>
+          <div class="ach off"><div class="ach-ic">🛒</div><div><div class="ach-n">Redeemer</div><div class="ach-d">Buy from XP store</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="sec-head"><div class="sec-title">✨ Recommended — unlock with XP</div><div class="sec-link" onclick="showPage('courses')">See all →</div></div>
+        <div class="cg">
+          <div class="cc" onclick="showPage('lesson')"><div class="cc-banner cb2">⚛️</div><div class="cc-body"><div class="cc-cat">Frontend</div><div class="cc-name">React — Zero to Prod</div><div class="cc-meta"><span>32 lessons</span><span>⚡ +25/lesson</span></div><div style="display:flex;gap:.35rem;flex-wrap:wrap"><span class="xp-gate">🔒 Needs 2,000 XP</span></div></div><div class="cc-foot"><span class="cc-price">₹499</span><button class="cc-btn">Enroll</button></div></div>
+          <div class="cc" onclick="showPage('lesson')"><div class="cc-banner cb3">🤖</div><div class="cc-body"><div class="cc-cat">AI</div><div class="cc-name">Prompt Engineering</div><div class="cc-meta"><span>18 lessons</span><span>⚡ +20/lesson</span></div><div style="display:flex;gap:.35rem;flex-wrap:wrap"><span class="xp-gate">✅ Unlocked</span></div></div><div class="cc-foot"><span class="cc-price">₹299</span><button class="cc-btn">Enroll</button></div></div>
+          <div class="cc" onclick="showPage('lesson')"><div class="cc-banner cb4">📊</div><div class="cc-body"><div class="cc-cat">Data</div><div class="cc-name">Python for Data</div><div class="cc-meta"><span>28 lessons</span><span>⚡ +30/lesson</span></div><div style="display:flex;gap:.35rem;flex-wrap:wrap"><span class="xp-gate">🔒 Needs 3,500 XP</span></div></div><div class="cc-foot"><span class="cc-price">₹399</span><button class="cc-btn">Enroll</button></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── COURSES ── -->
+    <div class="page" id="page-courses">
+      <div class="pg-title">📚 All Courses</div>
+      <div class="pg-sub">XP gates unlock as you progress. Each lesson gives 15–40 XP. Courses unlock certificates and jobs.</div>
+      <div style="background:rgba(255,209,102,.05);border:1px solid rgba(255,209,102,.12);border-radius:12px;padding:.85rem 1.1rem;margin-bottom:1.2rem;font-size:.8rem;color:var(--muted2)">
+        💡 <strong style="color:var(--yellow)">Your XP: 1,240</strong> — Reach 2,000 XP to unlock React. Reach 3,500 XP to unlock Python. Every 5 lessons = roughly 150 XP.
+      </div>
+      <div class="cg">
+        <div class="cc" onclick="showPage('lesson')"><div class="cc-banner cb1">🌐</div><div class="cc-body"><div class="cc-cat">Web Dev</div><div class="cc-name">JavaScript Fundamentals</div><div class="cc-meta"><span>24 lessons · 15–35 XP each</span></div><div style="display:flex;gap:.35rem;flex-wrap:wrap"><span class="cc-tag">In progress</span><span class="xp-gate" style="background:rgba(46,204,142,.08);border-color:rgba(46,204,142,.2);color:var(--green)">✅ Unlocked</span></div></div><div class="cc-prog"><div class="cc-prog-lbl"><span>38% complete</span><span style="color:var(--blue)">38%</span></div><div class="prog-bg"><div class="prog-fill" style="width:38%"></div></div></div><div class="cc-foot"><span class="cc-price free">Enrolled</span><button class="cc-btn" onclick="showPage('lesson')">Continue</button></div></div>
+        <div class="cc"><div class="cc-banner cb2" style="position:relative">⚛️<div class="cc-lock-overlay"><span style="font-size:1.8rem">🔒</span><span class="xp-gate">2,000 XP needed</span><span style="font-size:.65rem;color:var(--muted2);margin-top:.2rem">You have 1,240 XP</span></div></div><div class="cc-body"><div class="cc-cat">Frontend</div><div class="cc-name">React — Zero to Prod</div><div class="cc-meta"><span>32 lessons · 20–40 XP each</span></div></div><div class="cc-foot"><span class="cc-price">₹499</span><button class="cc-btn" onclick="showToast('🔒','Need 2,000 XP first. Keep learning!')">Locked</button></div></div>
+        <div class="cc" onclick="showPage('lesson')"><div class="cc-banner cb3">🤖</div><div class="cc-body"><div class="cc-cat">AI</div><div class="cc-name">Prompt Engineering</div><div class="cc-meta"><span>18 lessons · 15–30 XP each</span></div><div style="display:flex;gap:.35rem;flex-wrap:wrap"><span class="xp-gate" style="background:rgba(46,204,142,.08);border-color:rgba(46,204,142,.2);color:var(--green)">✅ Unlocked</span></div></div><div class="cc-foot"><span class="cc-price">₹299</span><button class="cc-btn" onclick="showToast('🎉','Enrolled! +30 XP')">Enroll</button></div></div>
+        <div class="cc"><div class="cc-banner cb4" style="position:relative">📊<div class="cc-lock-overlay"><span style="font-size:1.8rem">🔒</span><span class="xp-gate">3,500 XP needed</span></div></div><div class="cc-body"><div class="cc-cat">Data Science</div><div class="cc-name">Python for Data</div><div class="cc-meta"><span>28 lessons · 25–50 XP each</span></div></div><div class="cc-foot"><span class="cc-price">₹399</span><button class="cc-btn" onclick="showToast('🔒','Reach Level 5 (3,500 XP) first!')">Locked</button></div></div>
+        <div class="cc"><div class="cc-banner cb5" style="position:relative">🎨<div class="cc-lock-overlay"><span style="font-size:1.8rem">🔒</span><span class="xp-gate">5,000 XP needed</span></div></div><div class="cc-body"><div class="cc-cat">Design</div><div class="cc-name">UI/UX with Figma</div><div class="cc-meta"><span>22 lessons · 20–35 XP each</span></div></div><div class="cc-foot"><span class="cc-price">₹349</span><button class="cc-btn" onclick="showToast('🔒','Reach 5,000 XP to unlock!')">Locked</button></div></div>
+        <div class="cc" onclick="showPage('lesson')"><div class="cc-banner cb6">📱</div><div class="cc-body"><div class="cc-cat">Marketing</div><div class="cc-name">Social Media Growth</div><div class="cc-meta"><span>16 lessons · 10–25 XP each</span></div><div style="display:flex;gap:.35rem;flex-wrap:wrap"><span class="xp-gate" style="background:rgba(46,204,142,.08);border-color:rgba(46,204,142,.2);color:var(--green)">✅ Free · No XP gate</span></div></div><div class="cc-foot"><span class="cc-price free">Free</span><button class="cc-btn" onclick="showToast('🎉','Enrolled free!')">Enroll free</button></div></div>
+      </div>
+    </div>
+
+    <!-- ── LESSON ── -->
+    <div class="page" id="page-lesson">
+      <div class="lesson-shell">
+        <div class="lesson-body">
+          <div class="lesson-top">
+            <button class="back-btn" onclick="showPage('dashboard')">← Back</button>
+            <div class="lesson-hd">
+              <div class="lesson-course-tag">JavaScript Fundamentals</div>
+              <div class="lesson-title">Module 3.2 — Arrow Functions & Lexical Scope</div>
+            </div>
+            <div class="xp-pill-sm">⚡ +25 XP on complete</div>
+          </div>
+          <div class="lesson-content-card" id="lessonContent"></div>
+        </div>
+        <div class="lesson-side">
+          <div class="ls-card">
+            <div class="ls-title">Module 3 — Functions</div>
+            <div class="mod-list">
+              <div class="mod-item done"><div class="mi-ic ic-done">✓</div>Function declarations<div class="mi-xp">+20</div></div>
+              <div class="mod-item cur"><div class="mi-ic ic-cur">▶</div>Arrow functions<div class="mi-xp">+25</div></div>
+              <div class="mod-item"><div class="mi-ic ic-lk">🔒</div>Closures<div class="mi-xp">+30</div></div>
+              <div class="mod-item"><div class="mi-ic ic-lk">🔒</div>Higher-order fns<div class="mi-xp">+35</div></div>
+              <div class="mod-item"><div class="mi-ic ic-lk">🔒</div>Module challenge<div class="mi-xp">+80</div></div>
+            </div>
+          </div>
+          <div class="ai-box">
+            <div class="ai-av">🤖</div>
+            <div class="ls-title" style="margin-bottom:.38rem">AI Tutor — Aria</div>
+            <div class="ai-msg" id="aiMsg">Hey Pranav! Arrow functions inherit <strong style="color:var(--purple)">this</strong> from where they're defined. Ask me anything!</div>
+            <div class="ai-row">
+              <input class="ai-inp" id="aiInp" placeholder="Ask anything..." onkeydown="if(event.key==='Enter')askAria()">
+              <button class="ai-snd" onclick="askAria()">↑</button>
+            </div>
+          </div>
+          <div class="ls-card">
+            <div class="ls-title">Today's progress</div>
+            <div style="display:flex;flex-direction:column;gap:.45rem">
+              <div style="display:flex;justify-content:space-between;font-size:.76rem"><span style="color:var(--muted2)">Lessons done</span><span style="font-weight:700">2/5</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:.76rem"><span style="color:var(--muted2)">XP today</span><span style="font-weight:700;color:var(--yellow)">+45 XP</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:.76rem"><span style="color:var(--muted2)">Streak safe?</span><span style="font-weight:700;color:var(--green)">✓ Yes</span></div>
+              <div class="prog-bg" style="margin-top:.2rem"><div class="prog-fill" style="width:40%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STREAK PAGE ── -->
+    <div class="page" id="page-streak">
+      <div class="pg-title">🔥 Streak Manager</div>
+      <div class="pg-sub">Complete at least one lesson every day to keep your streak alive. Miss a day and it resets to zero — unless you're protected.</div>
+      <div class="streak-hero">
+        <div class="streak-big-fire">🔥</div>
+        <div class="streak-big" id="bigStreakNum">12</div>
+        <div class="streak-tagline">day streak — keep going!</div>
+        <div style="margin-top:1rem;display:flex;justify-content:center;gap:1.5rem;position:relative;z-index:1">
+          <div style="text-align:center"><div style="font-size:.72rem;color:var(--muted2)">Free shields left</div><div style="font-size:1.3rem;font-weight:800;color:var(--green)" id="freeShieldsLeft">2 / 2</div></div>
+          <div style="text-align:center"><div style="font-size:.72rem;color:var(--muted2)">Longest streak</div><div style="font-size:1.3rem;font-weight:800;color:var(--orange)">18 days</div></div>
+          <div style="text-align:center"><div style="font-size:.72rem;color:var(--muted2)">Total days learned</div><div style="font-size:1.3rem;font-weight:800;color:var(--blue)">47 days</div></div>
+        </div>
+      </div>
+
+      <!-- WEEK VIEW -->
+      <div style="margin-bottom:1.5rem">
+        <div class="sec-head"><div class="sec-title">This week</div></div>
+        <div class="streak-grid">
+          <div class="streak-day done"><div class="sd-icon">✅</div><div class="sd-label">Mon</div></div>
+          <div class="streak-day done"><div class="sd-icon">✅</div><div class="sd-label">Tue</div></div>
+          <div class="streak-day done"><div class="sd-icon">✅</div><div class="sd-label">Wed</div></div>
+          <div class="streak-day done"><div class="sd-icon">✅</div><div class="sd-label">Thu</div></div>
+          <div class="streak-day today"><div class="sd-icon">⚡</div><div class="sd-label">Today</div></div>
+          <div class="streak-day future"><div class="sd-icon">○</div><div class="sd-label">Sat</div></div>
+          <div class="streak-day future"><div class="sd-icon">○</div><div class="sd-label">Sun</div></div>
+        </div>
+      </div>
+
+      <!-- PROTECTION OPTIONS -->
+      <div style="margin-bottom:1.5rem">
+        <div class="sec-head"><div class="sec-title">🛡️ Streak protection options</div></div>
+        <div class="freeze-cards">
+          <div class="freeze-card">
+            <div class="fc-icon">🛡️</div>
+            <div class="fc-name">Free Shield</div>
+            <div class="fc-desc">You get 2 free streak shields every month. Use one on a day you can't learn — your streak stays intact, no cost.</div>
+            <div class="fc-status free">2 remaining this month</div>
+            <button class="fc-btn active-btn" onclick="useFreeze()">Use a shield now</button>
+          </div>
+          <div class="freeze-card best">
+            <div class="fc-icon">⚡</div>
+            <div class="fc-name">XP Freeze</div>
+            <div class="fc-desc">Spend 500 XP to protect your streak for one day. Use this when you've run out of free shields but have XP to spare.</div>
+            <div class="fc-status xp">Costs 500 XP · You have <span id="xpForFreeze">1,240</span></div>
+            <button class="fc-btn" onclick="useXpFreeze()">Spend 500 XP</button>
+          </div>
+          <div class="freeze-card">
+            <div class="fc-icon">💳</div>
+            <div class="fc-name">Paid Protect</div>
+            <div class="fc-desc">Pay ₹29 to protect your streak for one day, no XP required. Best when you're on a long streak you really can't afford to break.</div>
+            <div class="fc-status paid">₹29 per day · Instant</div>
+            <button class="fc-btn" onclick="paySave()">Pay ₹29 to protect</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MONTHLY CALENDAR -->
+      <div class="month-streak">
+        <div class="ms-title">March 2026 — activity calendar</div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div style="display:flex;gap:1rem;margin-top:.85rem;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:.4rem;font-size:.7rem;color:var(--muted2)"><div style="width:14px;height:14px;border-radius:4px;background:rgba(255,140,66,.18)"></div>Lesson done</div>
+          <div style="display:flex;align-items:center;gap:.4rem;font-size:.7rem;color:var(--muted2)"><div style="width:14px;height:14px;border-radius:4px;background:rgba(255,77,77,.1)"></div>Missed</div>
+          <div style="display:flex;align-items:center;gap:.4rem;font-size:.7rem;color:var(--muted2)"><div style="width:14px;height:14px;border-radius:4px;background:rgba(79,142,247,.12)"></div>Shield used</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AI AGENT ── -->
+    <div class="page" id="page-agent">
+      <div class="pg-title">🤖 AI Agent — Nova</div>
+      <div class="pg-sub">Your personal AI assistant for learning guidance, technical support, career advice, and platform help. Always on.</div>
+      <div class="agent-layout">
+        <div class="agent-sidebar">
+          <div class="agent-profile">
+            <div class="ap-avatar">🤖</div>
+            <div class="ap-name">Nova</div>
+            <div class="ap-role">LearnQuest AI Agent</div>
+            <div class="ap-status">Online · Ready to help</div>
+          </div>
+          <div class="agent-cats">
+            <div class="agent-cat-title">Quick topics</div>
+            <div class="agent-cat sel" onclick="setTopic('general',this)">💬 General help</div>
+            <div class="agent-cat" onclick="setTopic('learning',this)">📚 Learning guidance</div>
+            <div class="agent-cat" onclick="setTopic('technical',this)">🔧 Technical support</div>
+            <div class="agent-cat" onclick="setTopic('career',this)">💼 Career advice</div>
+            <div class="agent-cat" onclick="setTopic('xp',this)">⚡ XP & levels</div>
+            <div class="agent-cat" onclick="setTopic('streak',this)">🔥 Streak help</div>
+            <div class="agent-cat" onclick="setTopic('billing',this)">💳 Billing & plans</div>
+          </div>
+          <div class="agent-stats">
+            <div class="ag-stat"><div class="ag-stat-v">2,840</div><div class="ag-stat-l">Questions answered</div></div>
+            <div class="ag-stat"><div class="ag-stat-v">98%</div><div class="ag-stat-l">Satisfaction rate</div></div>
+            <div class="ag-stat"><div class="ag-stat-v">&lt;5s</div><div class="ag-stat-l">Avg response</div></div>
+            <div class="ag-stat"><div class="ag-stat-v">24/7</div><div class="ag-stat-l">Available</div></div>
+          </div>
+        </div>
+        <div class="chat-area">
+          <div class="chat-header">
+            <div class="chat-header-av">🤖</div>
+            <div class="chat-header-info">
+              <div class="chat-header-name">Nova — AI Agent</div>
+              <div class="chat-header-status">● Online · Typically replies instantly</div>
+            </div>
+          </div>
+          <div class="quick-btns">
+            <div class="qb" onclick="sendQuick('How do I earn more XP faster?')">How to earn XP faster?</div>
+            <div class="qb" onclick="sendQuick('My streak is about to break, what do I do?')">Streak about to break</div>
+            <div class="qb" onclick="sendQuick('Which course should I do next?')">Which course next?</div>
+            <div class="qb" onclick="sendQuick('How do I unlock more jobs?')">Unlock more jobs</div>
+            <div class="qb" onclick="sendQuick('I found a bug in the platform')">Report a bug</div>
+          </div>
+          <div class="chat-msgs" id="chatMsgs">
+            <div class="msg">
+              <div class="msg-av bot">🤖</div>
+              <div>
+                <div class="msg-bubble bot"><p>Hey Pranav! 👋 I'm Nova, your LearnQuest AI agent. I can help you with <strong>learning guidance</strong>, <strong>technical support</strong>, <strong>career advice</strong>, XP questions, streak protection — anything on the platform.</p><p>What can I help you with today?</p></div>
+                <div class="msg-time">Just now</div>
+              </div>
+            </div>
+          </div>
+          <div class="chat-input-area">
+            <input class="chat-inp" id="chatInput" placeholder="Ask Nova anything..." onkeydown="if(event.key==='Enter')sendMsg()">
+            <button class="chat-send" onclick="sendMsg()">↑</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── XP STORE ── -->
+    <div class="page" id="page-store">
+      <div class="store-banner">
+        <div class="store-banner-left">
+          <h2>🏪 XP Store</h2>
+          <p>Spend your hard-earned XP on real rewards. Devices, accessories, and perks — all redeemable with XP.</p>
+        </div>
+        <div class="store-balance">
+          <div class="sb-val" id="storeXPDisplay">1,240 XP</div>
+          <div class="sb-lbl">your balance</div>
+        </div>
+      </div>
+      <div class="store-tabs">
+        <div class="store-tab active" onclick="switchStoreTab('perks',this)">⚡ Perks</div>
+        <div class="store-tab" onclick="switchStoreTab('accessories',this)">🎧 Accessories</div>
+        <div class="store-tab" onclick="switchStoreTab('devices',this)">💻 Devices</div>
+      </div>
+      <div id="storeContent"></div>
+    </div>
+
+    <!-- ── HIRE ── -->
+    <div class="page" id="page-hire">
+      <div class="pg-title">🔍 Hire Verified Talent</div>
+      <div class="pg-sub">Every profile is backed by a LearnQuest certificate. You know exactly what they can do.</div>
+      <div class="search-bar">
+        <input class="search-inp" placeholder="Search by skill, role, or certificate..." id="searchInp">
+        <button class="search-btn" onclick="showToast('🔍','Searching...')">Search</button>
+      </div>
+      <div class="hire-layout">
+        <div class="hire-filters">
+          <div class="filter-title">Filters</div>
+          <div class="filter-sec">
+            <div class="filter-sec-lbl">Skills</div>
+            <div class="filter-options">
+              <label class="f-opt"><input type="checkbox" checked> JavaScript</label>
+              <label class="f-opt"><input type="checkbox"> React</label>
+              <label class="f-opt"><input type="checkbox"> Python</label>
+              <label class="f-opt"><input type="checkbox"> UI/UX Design</label>
+              <label class="f-opt"><input type="checkbox"> Data Analysis</label>
+              <label class="f-opt"><input type="checkbox"> AI & Prompting</label>
+            </div>
+          </div>
+          <div class="filter-sec">
+            <div class="filter-sec-lbl">Availability</div>
+            <div class="filter-options">
+              <label class="f-opt"><input type="checkbox" checked> Available now</label>
+              <label class="f-opt"><input type="checkbox"> Part-time</label>
+              <label class="f-opt"><input type="checkbox"> Full-time</label>
+            </div>
+          </div>
+          <div class="filter-sec">
+            <div class="filter-sec-lbl">Budget (₹/month)</div>
+            <input type="range" class="filter-range" min="0" max="50000" value="20000" oninput="document.getElementById('rv').textContent='₹'+Number(this.value).toLocaleString()">
+            <div class="range-labels"><span>₹0</span><span id="rv">₹20,000</span><span>₹50k</span></div>
+          </div>
+        </div>
+        <div class="hire-results" id="hireResults"></div>
+      </div>
+    </div>
+
+    <!-- POST JOB -->
+    <div class="page" id="page-post">
+      <div class="pg-title">📢 Post a Job or Project</div>
+      <div class="pg-sub">Reach thousands of certified LearnQuest students actively looking for work.</div>
+      <div class="post-job-card">
+        <div class="field-group"><div class="field-lbl">Job title</div><input class="field-inp" placeholder="e.g. Frontend Developer Intern..."></div>
+        <div class="field-row">
+          <div class="field-group"><div class="field-lbl">Job type</div><select class="field-inp"><option>Internship</option><option>Full-time</option><option>Freelance</option><option>Part-time</option></select></div>
+          <div class="field-group"><div class="field-lbl">Location</div><select class="field-inp"><option>Remote</option><option>Hybrid</option><option>On-site</option></select></div>
+        </div>
+        <div class="field-row">
+          <div class="field-group"><div class="field-lbl">Monthly budget (₹)</div><input class="field-inp" placeholder="e.g. 15000" type="number"></div>
+          <div class="field-group"><div class="field-lbl">Duration</div><select class="field-inp"><option>1–4 weeks</option><option>1–3 months</option><option>3–6 months</option><option>Ongoing</option></select></div>
+        </div>
+        <div class="field-group"><div class="field-lbl">Description</div><textarea class="field-inp" placeholder="What will they work on?"></textarea></div>
+        <div class="field-group"><div class="field-lbl">Required skills</div><div class="skill-picker" id="skillPicker"></div></div>
+        <button class="post-btn" onclick="showToast('🎉','Job posted! Candidates incoming within 24hrs.')">Post Job →</button>
+      </div>
+    </div>
+
+    <!-- FIND JOBS -->
+    <div class="page" id="page-jobs">
+      <div class="pg-title">💼 Jobs & Internships</div>
+      <div class="pg-sub">Matched to your certificates and XP level. Earn more XP to unlock locked positions.</div>
+      <div class="job-filters">
+        <div class="jf-chip active">All matches</div>
+        <div class="jf-chip idle">Internships</div>
+        <div class="jf-chip idle">Full-time</div>
+        <div class="jf-chip idle">Remote</div>
+      </div>
+      <div class="job-list" id="jobList"></div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div class="page" id="page-leaderboard">
+      <div class="pg-title">🏆 Weekly Leaderboard</div>
+      <div class="pg-sub">Resets Monday. Top 3 earn bonus XP and a crown badge.</div>
+      <div class="lb-podium">
+        <div class="pod pod-2" style="margin-top:2rem"><div class="pod-rank">🥈</div><div class="pod-av av-slv">AK</div><div class="pod-name">Aditya K.</div><div class="pod-xp">⚡ 3,840 XP</div></div>
+        <div class="pod pod-1"><div class="pod-rank">🥇</div><div class="pod-av av-gld">RV</div><div class="pod-name">Riya V.</div><div class="pod-xp">⚡ 4,100 XP</div></div>
+        <div class="pod pod-3" style="margin-top:2.5rem"><div class="pod-rank">🥉</div><div class="pod-av av-brz">SK</div><div class="pod-name">Sahil K.</div><div class="pod-xp">⚡ 2,890 XP</div></div>
+      </div>
+      <div class="lb-table">
+        <div class="lb-row" style="background:var(--surface2)"><div style="font-size:.62rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">#</div><div style="font-size:.62rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Student</div><div style="font-size:.62rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Streak</div><div style="font-size:.62rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">XP</div></div>
+        <div class="lb-row"><div class="lb-rank-n">4</div><div class="lb-user"><div class="lb-av" style="background:linear-gradient(135deg,var(--blue),var(--purple))">NM</div><div><div class="lb-name">Neha M.</div><div class="lb-lvl">Lv.6 · React</div></div></div><div class="lb-streak">🔥 18</div><div class="lb-xp">2,410</div></div>
+        <div class="lb-row"><div class="lb-rank-n">5</div><div class="lb-user"><div class="lb-av" style="background:linear-gradient(135deg,var(--green),var(--blue))">AT</div><div><div class="lb-name">Aryan T.</div><div class="lb-lvl">Lv.5 · Python</div></div></div><div class="lb-streak">🔥 9</div><div class="lb-xp">2,100</div></div>
+        <div class="lb-row me"><div class="lb-rank-n" style="color:var(--blue);font-weight:800">6</div><div class="lb-user"><div class="lb-av" style="background:linear-gradient(135deg,var(--blue),var(--purple))">P</div><div><div class="lb-name">Pranav (You)</div><div class="lb-lvl">Lv.4 · JS</div></div></div><div class="lb-streak">🔥 12</div><div class="lb-xp" style="color:var(--blue)">1,240</div></div>
+        <div class="lb-row"><div class="lb-rank-n">7</div><div class="lb-user"><div class="lb-av" style="background:linear-gradient(135deg,var(--orange),var(--pink))">KS</div><div><div class="lb-name">Karan S.</div><div class="lb-lvl">Lv.4 · Design</div></div></div><div class="lb-streak">🔥 6</div><div class="lb-xp">1,180</div></div>
+        <div class="lb-row"><div class="lb-rank-n">8</div><div class="lb-user"><div class="lb-av" style="background:linear-gradient(135deg,var(--yellow),var(--orange))">PR</div><div><div class="lb-name">Priya R.</div><div class="lb-lvl">Lv.3 · AI</div></div></div><div class="lb-streak">🔥 4</div><div class="lb-xp">980</div></div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATE -->
+    <div class="page" id="page-certificate">
+      <div class="pg-title">🎓 My Certificates</div>
+      <div class="pg-sub">Share on LinkedIn or let employers verify directly through LearnQuest.</div>
+      <div class="cert-wrap">
+        <div class="cert-card">
+          <div class="cert-logo-t">Learn<span>Quest</span></div>
+          <div class="cert-subt">Certificate of Completion</div>
+          <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:.4rem">This certifies that</div>
+          <div class="cert-name">Pranav Sharma</div>
+          <div style="font-size:.7rem;color:var(--muted2);margin-bottom:.3rem;letter-spacing:.08em;text-transform:uppercase">has successfully completed</div>
+          <div class="cert-course-n">⚡ JavaScript Fundamentals</div>
+          <div style="font-size:1rem;letter-spacing:.2rem;margin-bottom:1.2rem">★ ★ ★ ★ ★</div>
+          <div style="font-size:.7rem;color:var(--muted2);margin-bottom:1.2rem">Score: 94% · March 2026 · XP Earned: 480 XP</div>
+          <div class="cert-id">CERT-LQ-2026-JS-480</div>
+        </div>
+        <div class="cert-acts">
+          <button class="c-btn cb-p" onclick="showToast('📋','Link copied!')">📋 Share</button>
+          <button class="c-btn cb-s" onclick="showToast('⬇️','Downloading...')">⬇️ Download</button>
+          <button class="c-btn cb-s" onclick="showPage('jobs')">💼 Find Jobs →</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ── STARS ──
+const stEl=document.getElementById('stars');
+for(let i=0;i<90;i++){const s=document.createElement('div');s.className='star';const z=Math.random()*2+1;s.style.cssText=`width:${z}px;height:${z}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--del:${Math.random()*3}s`;stEl.appendChild(s);}
+
+// ── STATE ──
+let xp = 1240, streak = 12, freeShields = 2, level = 4;
+const XP_LEVELS = [0,500,1500,3500,7000,12000,20000,30000,50000];
+
+function getLevel(x){ for(let i=XP_LEVELS.length-1;i>=0;i--) if(x>=XP_LEVELS[i]) return i+1; return 1; }
+function getXpToNext(x){ const lv=getLevel(x); if(lv>=XP_LEVELS.length) return 0; return XP_LEVELS[lv]-x; }
+function getXpPct(x){ const lv=getLevel(x); const prev=XP_LEVELS[lv-1]||0; const next=XP_LEVELS[lv]||XP_LEVELS[XP_LEVELS.length-1]; return Math.round((x-prev)/(next-prev)*100); }
+
+function updateAllXP(){
+  level=getLevel(xp);
+  const toNext=getXpToNext(xp);
+  const pct=getXpPct(xp);
+  const fmt=n=>n.toLocaleString();
+  document.getElementById('xpDisplay').textContent=fmt(xp);
+  document.getElementById('streakDisplay').textContent=streak;
+  document.getElementById('sbStreak').textContent=streak+' days';
+  document.getElementById('sbLevel').textContent='Lv. '+level;
+  document.getElementById('sbXpFill').style.width=pct+'%';
+  document.getElementById('sbXpSub').textContent=fmt(xp)+' / '+fmt(xp+toNext)+' XP to Lv.'+(level+1);
+  document.getElementById('dashXP').textContent=fmt(xp);
+  document.getElementById('dashStreak').textContent=streak;
+  document.getElementById('bigStreakNum').textContent=streak;
+  document.getElementById('storeXPDisplay').textContent=fmt(xp)+' XP';
+  document.getElementById('xpForFreeze').textContent=fmt(xp);
+  document.getElementById('freeShieldsLeft').textContent=freeShields+' / 2';
+}
+
+// ── TOAST ──
+let tTimer;
+function showToast(ic,msg){clearTimeout(tTimer);document.getElementById('t-ic').textContent=ic;document.getElementById('t-msg').textContent=msg;const t=document.getElementById('toast');t.classList.add('show');tTimer=setTimeout(()=>t.classList.remove('show'),3000);}
+
+// ── PARTICLES ──
+function burst(){const cols=['#4F8EF7','#9B6FFF','#2ECC8E','#FFD166','#FF8C42'];for(let i=0;i<16;i++){const p=document.createElement('div');p.className='pt';const sz=5+Math.random()*8,a=Math.random()*360,d=70+Math.random()*120;p.style.cssText=`width:${sz}px;height:${sz}px;background:${cols[i%cols.length]};left:50%;top:50%;--tx:${Math.cos(a*Math.PI/180)*d}px;--ty:${Math.sin(a*Math.PI/180)*d}px`;document.body.appendChild(p);setTimeout(()=>p.remove(),1200);}}
+
+// ── MODALS ──
+function closeMo(){document.getElementById('modal').classList.remove('show');burst();showToast('🎉','Level up! Keep going!');}
+function closeSM(){document.getElementById('streakModal').classList.remove('show');}
+function useFreeze(){
+  if(freeShields<=0){showToast('😔','No free shields left this month!');return;}
+  freeShields--;updateAllXP();
+  document.getElementById('streakModal').classList.remove('show');
+  showToast('🛡️','Shield used! Streak protected for today.');burst();
+}
+function useXpFreeze(){
+  if(xp<500){showToast('😔','Not enough XP! Need 500 XP.');return;}
+  xp-=500;updateAllXP();
+  document.getElementById('streakModal').classList.remove('show');
+  showToast('⚡','500 XP spent. Streak protected!');burst();
+}
+function paySave(){
+  document.getElementById('streakModal').classList.remove('show');
+  showToast('💳','Redirecting to payment... Streak will be protected.');
+}
+
+// ── DO LESSON (earn XP) ──
+function doLesson(){
+  showPage('lesson');
+  const earned = 20 + Math.floor(Math.random()*20);
+  setTimeout(()=>{
+    xp += earned;
+    updateAllXP();
+    showToast('⚡','+'+earned+' XP earned! Keep going!');
+    if(getLevel(xp)>level){ setTimeout(()=>document.getElementById('modal').classList.add('show'),600); }
+  }, 800);
+}
+
+// ── STREAK TRIGGER ──
+function triggerStreakWarning(){
+  document.getElementById('streakWarning').style.display='block';
+  setTimeout(()=>document.getElementById('streakModal').classList.add('show'),1500);
+}
+
+// ── MODE ──
+function setMode(m,el){document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');if(m==='hirer'){showPage('hire');showToast('🔍','Hirer mode');}else{showPage('dashboard');showToast('📚','Learner mode');}}
+
+// ── PAGE NAV ──
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab,.sb-item').forEach(n=>n.classList.remove('active'));
+  const pg=document.getElementById('page-'+id);if(pg)pg.classList.add('active');
+  const nt=document.getElementById('nt-'+id);if(nt)nt.classList.add('active');
+  if(id==='lesson')loadLesson(curLesson);
+  if(id==='hire')renderTalent();
+  if(id==='jobs')renderJobs();
+  if(id==='post')renderSkillPicker();
+  if(id==='store')renderStore('perks');
+  if(id==='streak')renderCal();
+  window.scrollTo(0,0);
+}
+
+// ── CALENDAR ──
+function renderCal(){
+  const el=document.getElementById('calGrid');
+  const days=[];
+  const today=30;
+  for(let i=1;i<=today;i++){
+    let cls='cal-day';let txt=i;
+    if(i===today) cls+=' today';
+    else if(i>=19&&i<=today-1) cls+=' done';
+    else if(i===15) cls+=' frozen';
+    else if(i===10||i===5) cls+=' missed';
+    else if(i<10) cls+=' done';
+    else cls+=' missed';
+    days.push(`<div class="${cls}">${txt}</div>`);
+  }
+  for(let i=today+1;i<=31;i++) days.push(`<div class="cal-day future">${i}</div>`);
+  el.innerHTML=days.join('');
+}
+
+// ── AI AGENT ──
+const agentResponses = {
+  general: ["I'm here to help with anything on LearnQuest! Ask me about XP, courses, streaks, jobs, technical issues — whatever's on your mind. 🚀", "Got it! What do you need help with specifically? I can guide you through learning paths, explain how XP works, help with technical issues, or give career advice.", "Sure thing! I'm connected to everything on the platform so I can give you accurate, personalized answers."],
+  xp: ["Great question! XP is earned in small amounts on purpose — it keeps progress meaningful. Lessons give 15–40 XP, quizzes give 25–60 XP, and challenges give 50–100 XP. Daily streaks also give a small XP multiplier. The best way to earn faster is to do challenges rather than just lessons — they give 2–3x more XP.", "You currently have <strong>"+xp+" XP</strong>. To hit Level 5 you need 3,500 XP total, so you need about <strong>"+(3500-xp)+" more XP</strong>. At your current pace (about 45 XP/day), that's roughly "+(Math.ceil((3500-xp)/45))+" days of consistent learning.", "XP gates exist so advanced courses stay valuable. The React course unlocks at 2,000 XP — you're "+Math.round((xp/2000)*100)+"% of the way there. Keep doing 2–3 lessons per day and you'll hit it in about "+(Math.ceil((2000-xp)/45))+" days."],
+  streak: ["Your <strong>12-day streak</strong> is great! Remember: you need to complete at least one lesson per calendar day to maintain it. You have <strong>"+freeShields+" free shields</strong> left this month — save them for days you know will be busy.", "Streak shields work like this: 2 free ones per month reset on the 1st. XP freezes cost 500 XP. Paid protection is ₹29/day. I'd recommend only using paid protection for very long streaks (30+ days) where losing it would feel really bad.", "The best streak strategy: do at least 1 quick lesson every morning before you do anything else. Even 10 minutes is enough to maintain the streak. Short daily sessions beat long weekend sessions every time."],
+  career: ["Based on your JavaScript course progress, frontend developer and React developer roles are your best near-term targets. Companies like Groww, Razorpay, and several Bangalore startups regularly hire from LearnQuest. Complete JS with 90%+ and your job match score jumps significantly.", "For internships in India right now: companies paying ₹10,000–20,000/month are very reachable with 1–2 LearnQuest certificates. The React certificate especially opens a lot of doors. Focus on finishing JS first, then React.", "To maximize your job matches: complete at least one course fully (don't abandon halfway), get 85%+ average quiz score, and build a portfolio project during the challenge modules. Employers on LearnQuest specifically filter for verified certificates."],
+  technical: ["I've logged your technical issue! Can you tell me more — what page were you on, what were you trying to do, and what happened? I'll either fix it right away or escalate it to the engineering team with full details.", "Technical issues on LearnQuest are usually one of: slow loading (try clearing cache), video not playing (try a different browser), XP not updating (refresh the page), or payment issues (check your bank before retrying). Which one applies to you?", "Got it — I'm flagging this for the technical team. In the meantime, try refreshing the page and clearing your browser cache (Ctrl+Shift+R). If it's a payment issue, your money is safe and will be refunded within 24 hours if the transaction failed."],
+  learning: ["Looking at your profile: you're on JavaScript Module 3. My recommendation — don't skip ahead. Complete all modules in order, and specifically don't skip the challenge modules even if they're hard. The challenges unlock bonus XP multipliers.", "The most effective learning pattern on LearnQuest: Learn module → Quiz immediately → Challenge same day. Don't spread them across days. Doing all 3 in one session boosts retention by about 40% and you earn XP faster.", "For your level: I'd suggest 3 lessons per session, 5 sessions per week. That's about 45–60 minutes of learning per week and will get you to Level 5 in roughly 3 weeks."],
+  billing: ["LearnQuest courses are individually priced — no subscription required. Once you pay for a course, you own it forever with lifetime access. Streak protection payments (₹29/day) are separate and optional.", "All payments on LearnQuest go through Razorpay which supports UPI, cards, and net banking. If a payment failed, check your bank first — most failed transactions auto-refund within 24 hours.", "Your current plan: free base account with individual course purchases. We don't have a subscription model — you only pay for courses you want to take."],
+  default: ["That's a great question! Let me think about that. Based on your profile and progress, here's what I'd suggest: keep your daily lesson habit going, focus on finishing JavaScript before starting anything new, and use your free shields wisely. Is there something more specific I can help with?", "I heard you! For context, you're at Level "+getLevel(xp)+" with "+xp+" XP and a "+streak+"-day streak. You're doing well! What exactly do you need help with — I want to make sure I give you the most useful answer.", "Sure! I'm connected to your full learning profile so I can give personalized advice. Ask me anything — no question is too basic or too technical."]
+};
+let currentTopic='general';
+const topicMap={general:'general',learning:'learning',technical:'technical',career:'career',xp:'xp',streak:'streak',billing:'billing'};
+
+function setTopic(t,el){
+  document.querySelectorAll('.agent-cat').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');currentTopic=t;
+  showToast('💬','Topic set to: '+t);
+}
+function sendQuick(msg){document.getElementById('chatInput').value=msg;sendMsg();}
+function sendMsg(){
+  const inp=document.getElementById('chatInput');
+  const msg=inp.value.trim();if(!msg)return;
+  const msgs=document.getElementById('chatMsgs');
+  msgs.innerHTML+=`<div class="msg user"><div class="msg-av usr">P</div><div><div class="msg-bubble usr">${msg}</div><div class="msg-time" style="text-align:right">Just now</div></div></div>`;
+  const typing=`<div class="msg" id="typing"><div class="msg-av bot">🤖</div><div class="typing-indicator show"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  msgs.innerHTML+=typing;
+  msgs.scrollTop=msgs.scrollHeight;
+  inp.value='';
+  setTimeout(()=>{
+    document.getElementById('typing')?.remove();
+    let pool=agentResponses.default;
+    const q=msg.toLowerCase();
+    if(q.includes('xp')||q.includes('level')||q.includes('earn')) pool=agentResponses.xp;
+    else if(q.includes('streak')||q.includes('break')||q.includes('shield')) pool=agentResponses.streak;
+    else if(q.includes('job')||q.includes('career')||q.includes('hire')||q.includes('internship')) pool=agentResponses.career;
+    else if(q.includes('bug')||q.includes('issue')||q.includes('error')||q.includes('problem')||q.includes('technical')) pool=agentResponses.technical;
+    else if(q.includes('learn')||q.includes('course')||q.includes('lesson')||q.includes('next')) pool=agentResponses.learning;
+    else if(q.includes('pay')||q.includes('price')||q.includes('cost')||q.includes('billing')) pool=agentResponses.billing;
+    else if(currentTopic in agentResponses) pool=agentResponses[currentTopic];
+    const resp=pool[Math.floor(Math.random()*pool.length)];
+    msgs.innerHTML+=`<div class="msg"><div class="msg-av bot">🤖</div><div><div class="msg-bubble bot"><p>${resp}</p></div><div class="msg-time">Just now</div></div></div>`;
+    msgs.scrollTop=msgs.scrollHeight;
+  },1200+Math.random()*800);
+}
+
+// ── STORE ──
+const storeData = {
+  perks: [
+    {img:'⚡',bg:'si-bg-purple',cat:'Streak',name:'Double XP Weekend',desc:'Earn 2x XP on all lessons for an entire weekend. Best used before a challenge module.',price:800,rarity:'rare'},
+    {img:'🛡️',bg:'si-bg-blue',cat:'Protection',name:'Streak Shield Pack',desc:'5 extra streak shields that stack with your monthly free shields. Never break your streak.',price:1200,rarity:'rare'},
+    {img:'🎯',bg:'si-bg-green',cat:'Boost',name:'Quiz Hint Token',desc:'Use before any quiz to get a subtle hint. Doesn\'t affect your XP reward.',price:300,rarity:null},
+    {img:'⏩',bg:'si-bg-orange',cat:'Unlock',name:'Course Early Access',desc:'Skip the XP gate on one locked course of your choice. Access it 1,000 XP early.',price:2000,rarity:'epic'},
+    {img:'🏅',bg:'si-bg-teal',cat:'Profile',name:'Golden Badge Frame',desc:'A rare gold frame around your profile avatar visible on the leaderboard.',price:1500,rarity:'rare'},
+    {img:'📊',bg:'si-bg-yellow',cat:'Analytics',name:'Detailed Progress Report',desc:'Full breakdown of your learning patterns, weak areas, and a personalized study plan.',price:600,rarity:null},
+  ],
+  accessories: [
+    {img:'🎧',bg:'si-bg-purple',cat:'Audio',name:'Sony WH-1000XM5 Voucher',desc:'₹3,500 voucher toward Sony noise-cancelling headphones. Redeemable at Amazon India.',price:8000,rarity:'epic'},
+    {img:'🖱️',bg:'si-bg-blue',cat:'Peripherals',name:'Logitech MX Master 3',desc:'₹2,000 voucher toward the best productivity mouse you can buy.',price:5000,rarity:'rare'},
+    {img:'⌨️',bg:'si-bg-teal',cat:'Peripherals',name:'Mechanical Keyboard Voucher',desc:'₹2,500 voucher for any mechanical keyboard of your choice on Flipkart.',price:6000,rarity:'rare'},
+    {img:'💡',bg:'si-bg-orange',cat:'Desk',name:'LED Desk Lamp',desc:'A high-quality adjustable LED desk lamp shipped to your address.',price:3500,rarity:null},
+    {img:'📱',bg:'si-bg-green',cat:'Mobile',name:'Phone Stand + Ring Light',desc:'Professional ring light and adjustable phone stand for video calls and content creation.',price:2500,rarity:null},
+    {img:'🖥️',bg:'si-bg-yellow',cat:'Display',name:'Monitor Light Bar',desc:'BenQ ScreenBar style monitor light. Great for long learning sessions.',price:4500,rarity:'rare'},
+  ],
+  devices: [
+    {img:'💻',bg:'si-bg-blue',cat:'Laptop',name:'Lenovo IdeaPad Slim 3',desc:'Full entry-level laptop with 8GB RAM, 512GB SSD. Shipped directly to you. Real device — earned with XP.',price:50000,rarity:'legendary'},
+    {img:'📱',bg:'si-bg-purple',cat:'Tablet',name:'Realme Pad 2',desc:'10.4" tablet perfect for learning on the go. 64GB storage, 6000mAh battery. Ships in 5–7 days.',price:35000,rarity:'legendary'},
+    {img:'⌚',bg:'si-bg-teal',cat:'Wearable',name:'Noise ColorFit Pro 4',desc:'Smartwatch with health tracking, notifications, and 7-day battery. Good motivation tracker.',price:15000,rarity:'epic'},
+    {img:'🎮',bg:'si-bg-orange',cat:'Gaming',name:'PS5 Controller',desc:'DualSense wireless controller. A reward for the grinders — 15,000 XP is serious dedication.',price:15000,rarity:'epic'},
+    {img:'🎧',bg:'si-bg-yellow',cat:'Audio',name:'JBL Tune 510BT',desc:'Wireless over-ear headphones with 40hr battery. Great for learning sessions.',price:8000,rarity:'rare'},
+    {img:'📷',bg:'si-bg-green',cat:'Camera',name:'Logitech C920 Webcam',desc:'HD webcam — great for video interviews once you get hired through LearnQuest.',price:12000,rarity:'epic'},
+  ]
+};
+
+function switchStoreTab(tab,el){document.querySelectorAll('.store-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderStore(tab);}
+
+function renderStore(tab){
+  const items=storeData[tab];
+  let html='';
+  if(tab==='devices'){
+    html+=`<div class="device-banner"><div class="db-icon">🏆</div><div class="db-text">Devices are <strong>real physical products</strong> shipped to your address. Every XP you earn goes toward these. 50,000 XP for a laptop is 3–4 months of consistent daily learning. The grind is real, the reward is real.</div></div>`;
+  }
+  html+=`<div class="store-grid">`;
+  items.forEach((item,i)=>{
+    const canAfford=xp>=item.price;
+    const owned=false;
+    html+=`<div class="store-item ${item.rarity||''}">
+      ${item.rarity?`<div class="si-rarity ${item.rarity}">${item.rarity}</div>`:''}
+      <div class="si-img ${item.bg}">${item.img}</div>
+      <div class="si-body">
+        <div class="si-category">${item.cat}</div>
+        <div class="si-name">${item.name}</div>
+        <div class="si-desc">${item.desc}</div>
+      </div>
+      <div class="si-footer">
+        <div class="si-price">
+          <div>
+            <div class="si-price-v">⚡ ${item.price.toLocaleString()}</div>
+            <div class="si-price-l">XP required</div>
+            ${!canAfford?`<span class="xp-needed">Need ${(item.price-xp).toLocaleString()} more XP</span>`:''}
+          </div>
+        </div>
+        <button class="si-btn ${canAfford?'can-afford':'cant-afford'}" onclick="${canAfford?`buyItem(${i},'${tab}','${item.name}',${item.price})`:`showToast('🔒','Need ${(item.price-xp).toLocaleString()} more XP!')`}">${canAfford?'Redeem':'Locked'}</button>
+      </div>
+    </div>`;
+  });
+  html+='</div>';
+  document.getElementById('storeContent').innerHTML=html;
+}
+
+function buyItem(i,tab,name,price){
+  xp-=price;updateAllXP();burst();
+  showToast('🎉','Redeemed: '+name+'! Check your email.');
+  renderStore(tab);
+}
+
+// ── TALENT ──
+const talent=[
+  {id:0,initials:'AK',bg:'linear-gradient(135deg,#4F8EF7,#9B6FFF)',name:'Aditya Kumar',role:'Frontend Developer',level:9,skills:[['JavaScript','sk-bl'],['React','sk-pu'],['HTML/CSS','sk-gr']],avail:true,rate:'₹18,000/mo',certs:['JavaScript Fundamentals','React — Zero to Prod'],projects:14,rating:'4.9',bio:'Passionate frontend dev. Completed JS and React with distinction.',xp:'4,820'},
+  {id:1,initials:'NM',bg:'linear-gradient(135deg,#2ECC8E,#4F8EF7)',name:'Neha Mishra',role:'UI/UX Designer',level:8,skills:[['Figma','sk-pk'],['UI/UX','sk-pu'],['Prototyping','sk-tl']],avail:true,rate:'₹15,000/mo',certs:['UI/UX with Figma'],projects:9,rating:'4.8',bio:'Design-obsessed. Builds clean, user-tested interfaces.',xp:'3,840'},
+  {id:2,initials:'RS',bg:'linear-gradient(135deg,#FF8C42,#FFD166)',name:'Rahul Sharma',role:'Data Analyst',level:7,skills:[['Python','sk-bl'],['Data Analysis','sk-gr'],['SQL','sk-or']],avail:false,rate:'₹12,000/mo',certs:['Python for Data'],projects:6,rating:'4.7',bio:'Turns messy datasets into clear insights.',xp:'2,890'},
+  {id:3,initials:'PS',bg:'linear-gradient(135deg,#9B6FFF,#FF5FA0)',name:'Priya Singh',role:'AI & Automation',level:7,skills:[['Prompt Eng.','sk-pu'],['n8n','sk-tl'],['Make.com','sk-gr']],avail:true,rate:'₹20,000/mo',certs:['Prompt Engineering'],projects:11,rating:'5.0',bio:'AI native. Builds automation workflows that save hours.',xp:'2,650'},
+  {id:4,initials:'VR',bg:'linear-gradient(135deg,#2EC4B6,#4F8EF7)',name:'Vivek Reddy',role:'Content & Social',level:6,skills:[['Content','sk-or'],['Instagram','sk-pk'],['Analytics','sk-gr']],avail:true,rate:'₹10,000/mo',certs:['Social Media Growth'],projects:8,rating:'4.6',bio:'Grew 3 brand accounts to 10k+ followers.',xp:'1,980'},
+];
+
+function renderTalent(){
+  document.getElementById('hireResults').innerHTML=talent.map(t=>`
+    <div class="talent-card" onclick="showTD(${t.id})">
+      <div class="talent-av" style="background:${t.bg}">${t.initials}</div>
+      <div>
+        <div class="tc-name">${t.name} <span style="font-size:.65rem;color:var(--muted2)">Lv.${t.level}</span></div>
+        <div class="tc-role">${t.role}</div>
+        <div class="tc-skills">${t.skills.map(s=>`<span class="tc-skill ${s[1]}">${s[0]}</span>`).join('')}</div>
+        <div class="tc-meta"><span>⭐ <strong>${t.rating}</strong></span><span>📦 <strong>${t.projects}</strong> projects</span><span>⚡ <strong>${t.xp}</strong> XP</span></div>
+      </div>
+      <div class="tc-right">
+        <div><div class="tc-rate-v">${t.rate}</div><div class="tc-rate-l">expected</div></div>
+        <div class="tc-cert">🎓 ${t.certs.length} cert${t.certs.length>1?'s':''}</div>
+        <div style="display:flex;align-items:center;gap:.4rem;font-size:.68rem;color:${t.avail?'var(--green)':'var(--muted)'}"><div class="avail-dot ${t.avail?'on':'off'}"></div>${t.avail?'Available':'Busy'}</div>
+        <button class="hire-btn" onclick="event.stopPropagation();showToast('📩','Message sent to ${t.name}!')">Message →</button>
+      </div>
+    </div>`).join('');
+}
+
+function showTD(id){
+  const t=talent[id];
+  document.getElementById('tdModal').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.1rem">
+      <div style="display:flex;gap:.85rem;align-items:flex-start">
+        <div class="td-av" style="background:${t.bg}">${t.initials}</div>
+        <div><div class="td-name">${t.name}</div><div class="td-role">${t.role} · Level ${t.level}</div><div style="display:flex;align-items:center;gap:.4rem;font-size:.7rem;color:${t.avail?'var(--green)':'var(--muted)'}"><div class="avail-dot ${t.avail?'on':'off'}"></div>${t.avail?'Available now':'Currently busy'}</div></div>
+      </div>
+      <button onclick="closeTD()" style="background:none;border:none;color:var(--muted2);font-size:1.2rem;cursor:pointer">✕</button>
+    </div>
+    <div class="td-stats">
+      <div class="td-stat"><div class="td-stat-v" style="color:var(--yellow)">⚡ ${t.xp}</div><div class="td-stat-l">XP</div></div>
+      <div class="td-stat"><div class="td-stat-v" style="color:var(--green)">⭐ ${t.rating}</div><div class="td-stat-l">Rating</div></div>
+      <div class="td-stat"><div class="td-stat-v" style="color:var(--blue)">${t.projects}</div><div class="td-stat-l">Projects</div></div>
+    </div>
+    <div class="td-sec"><div class="td-sec-title">About</div><p style="font-size:.83rem;color:var(--muted2);line-height:1.65;font-weight:300">${t.bio}</p></div>
+    <div class="td-sec"><div class="td-sec-title">Skills</div><div style="display:flex;flex-wrap:wrap;gap:.38rem">${t.skills.map(s=>`<span class="tc-skill ${s[1]}" style="font-size:.73rem;padding:.28rem .62rem">${s[0]}</span>`).join('')}</div></div>
+    <div class="td-sec"><div class="td-sec-title">Certificates</div>${t.certs.map(c=>`<span class="cert-chip">🎓 ${c}</span>`).join('')}</div>
+    <div class="td-sec"><div class="td-sec-title">Rate</div><div style="font-size:1.25rem;font-weight:800;color:var(--green)">${t.rate}</div></div>
+    <div class="td-actions">
+      <button class="td-btn-p" onclick="showToast('📩','Hire request sent!');closeTD()">Hire ${t.name.split(' ')[0]} →</button>
+      <button class="td-btn-s" onclick="showToast('💬','Message sent!');closeTD()">Message</button>
+    </div>`;
+  document.getElementById('tdOverlay').classList.add('show');
+}
+function closeTD(){document.getElementById('tdOverlay').classList.remove('show');}
+document.getElementById('tdOverlay').addEventListener('click',function(e){if(e.target===this)closeTD();});
+
+// ── JOBS ──
+const jobs=[
+  {logo:'🚀',title:'Frontend Developer Intern',company:'Groww · Bangalore',tags:[['bl','Internship'],['gr','₹15,000/mo'],['or','Remote']],match:94,locked:false},
+  {logo:'💡',title:'JavaScript Developer',company:'Razorpay · Remote',tags:[['bl','Full-time'],['gr','₹8–12 LPA']],match:88,locked:false},
+  {logo:'🎯',title:'Web Dev Freelance Projects',company:'SkillBridge · India',tags:[['bl','Freelance'],['gr','₹500–5k/project']],match:96,locked:false},
+  {logo:'🏆',title:'React Developer Intern',company:'CRED · Bangalore',tags:[['bl','Internship'],['gr','₹20,000/mo']],match:82,locked:true,lockMsg:'Complete React course (needs 2,000 XP)'},
+  {logo:'🌐',title:'Full Stack Developer',company:'Zerodha · Bangalore',tags:[['bl','Full-time'],['gr','₹10–15 LPA']],match:71,locked:true,lockMsg:'Reach Level 7 to unlock'},
+];
+function renderJobs(){
+  document.getElementById('jobList').innerHTML=jobs.map(j=>`
+    <div class="job-card" style="${j.locked?'opacity:.5':''}">
+      <div class="job-logo">${j.logo}</div>
+      <div>
+        <div class="jc-title">${j.title}</div>
+        <div class="jc-company">${j.company}</div>
+        <div class="jc-tags">${j.tags.map(t=>`<span class="jc-tag jt-${t[0]}">${t[1]}</span>`).join('')}${j.locked?`<span class="jc-tag jt-or">🔒 ${j.lockMsg}</span>`:''}</div>
+      </div>
+      <div class="match-col">
+        <div class="match-ring ${j.match>=90?'high':j.match>=80?'mid':'low'}">${j.match}%</div>
+        ${j.locked?`<button class="locked-btn">Locked</button>`:`<button class="apply-btn" onclick="showToast('🎉','Applied to ${j.company.split('·')[0].trim()}!')">Apply</button>`}
+      </div>
+    </div>`).join('');
+}
+
+// ── SKILL PICKER ──
+const allSkills=['JavaScript','React','Python','UI/UX','Figma','Data Analysis','SQL','Node.js','Content Writing','Social Media','Prompt Engineering','n8n','Video Editing'];
+let selSkills=new Set();
+function renderSkillPicker(){document.getElementById('skillPicker').innerHTML=allSkills.map(s=>`<div class="sk-pick ${selSkills.has(s)?'sel':''}" onclick="toggleSkill('${s}',this)">${s}</div>`).join('');}
+function toggleSkill(s,el){selSkills.has(s)?selSkills.delete(s):selSkills.add(s);el.classList.toggle('sel');}
+
+// ── LESSON ENGINE ──
+const lessons=[
+  {type:'learn',badge:'lb-learn',bt:'📖 Learn',title:'Arrow Functions',html:`<h2>What are arrow functions?</h2><p>Arrow functions are a <strong>shorter, cleaner way</strong> to write functions in JavaScript introduced in ES6.</p><div class="code-blk"><span class="cm">// Traditional</span>\n<span class="kw">function</span> <span class="fn">greet</span>(name) {\n  <span class="kw">return</span> <span class="str">"Hello, "</span> + name;\n}\n\n<span class="cm">// Arrow — same thing, 1 line</span>\n<span class="kw">const</span> <span class="fn">greet</span> = name => <span class="str">"Hello, "</span> + name;</div><p>Arrow functions inherit <strong>this</strong> from where they're defined — not where they're called. This makes them perfect for callbacks.</p><div class="tip-bx"><div>💡</div><p><strong>Tip:</strong> Single expression body = no curly braces + no return keyword needed.</p></div>`,action:()=>loadLesson(1),al:'Take the quiz → (+40 XP)'},
+  {type:'quiz',badge:'lb-quiz',bt:'🧠 Quiz',title:'Test Your Knowledge',q:'Which is the correct arrow function for returning a+b?',opts:['function add => (a,b){ return a+b }','const add = (a,b) => a+b','const add = a,b => return a+b','arrow add(a,b){ a+b }'],correct:1,exp:'✓ Correct! const add = (a,b) => a+b — parentheses for multiple params, no return needed for single expressions.'},
+  {type:'challenge',badge:'lb-ch',bt:'⚡ Challenge',title:'Refactor to Arrow Functions',html:`<h2>Mission: convert all three</h2><p>Refactor each to arrow functions. This exact task comes up in real codebases constantly.</p><div class="code-blk"><span class="kw">function</span> <span class="fn">double</span>(n) { <span class="kw">return</span> n * 2; }\n<span class="kw">function</span> <span class="fn">isEven</span>(n) { <span class="kw">return</span> n % 2 === 0; }\nnumbers.<span class="fn">map</span>(<span class="kw">function</span>(n) { <span class="kw">return</span> n * n; });</div><div class="tip-bx"><div>🎯</div><p><strong>Answers:</strong> <code style="font-family:JetBrains Mono,monospace;font-size:.73rem;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:4px">const double = n => n*2</code> · <code style="font-family:JetBrains Mono,monospace;font-size:.73rem;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:4px">const isEven = n => n%2===0</code> · <code style="font-family:JetBrains Mono,monospace;font-size:.73rem;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:4px">numbers.map(n => n*n)</code></p></div>`,action:()=>{const earned=80;xp+=earned;updateAllXP();showToast('⚡','+'+earned+' XP! Challenge complete!');burst();setTimeout(()=>document.getElementById('modal').classList.add('show'),700);loadLesson(0);},al:'✅ Got them all → (+80 XP)'}
+];
+let curLesson=0,selOpt=-1;
+function loadLesson(i){
+  curLesson=i;selOpt=-1;
+  const l=lessons[i],el=document.getElementById('lessonContent');
+  if(!el)return;
+  if(l.type==='quiz'){
+    el.innerHTML=`<div class="l-badge ${l.badge}">${l.bt}</div><div class="quiz-q">${l.q}</div><div class="quiz-opts">${l.opts.map((o,j)=>`<div class="q-opt" onclick="selQ(${j})" id="qo${j}"><div class="opt-l">${['A','B','C','D'][j]}</div>${o}</div>`).join('')}</div><div class="qfb" id="qfb"></div><button class="chk-btn" onclick="checkQ(${l.correct},'${l.exp.replace(/'/g,"\\'")}')">Check answer</button><button class="nxt-btn" id="nxtBtn" onclick="loadLesson(2)">Next → (+80 XP challenge)</button>`;
+  }else{
+    el.innerHTML=`<div class="l-badge ${l.badge}">${l.bt}</div>${l.html}<button class="chk-btn" onclick="(${l.action.toString()})()">${l.al}</button>`;
+  }
+}
+function selQ(i){selOpt=i;document.querySelectorAll('.q-opt').forEach((o,j)=>o.classList.toggle('sel',j===i));}
+function checkQ(correct,exp){
+  if(selOpt<0){showToast('👆','Pick an answer first!');return;}
+  document.querySelectorAll('.q-opt').forEach((o,j)=>{o.classList.remove('sel');if(j===correct)o.classList.add('correct');else if(j===selOpt&&selOpt!==correct)o.classList.add('wrong');});
+  const fb=document.getElementById('qfb');
+  if(selOpt===correct){
+    const earned=40;xp+=earned;updateAllXP();
+    fb.className='qfb ok show';fb.innerHTML='<span>✓</span><span>'+exp+'</span>';
+    showToast('⚡','+'+earned+' XP! Correct!');burst();
+  }else{fb.className='qfb no show';fb.innerHTML='<span>✗</span><span>Not quite — answer is B: const add = (a,b) => a+b</span>';}
+  document.getElementById('nxtBtn').classList.add('show');
+  document.querySelector('.chk-btn').style.display='none';
+}
+
+// AI TUTOR (lesson sidebar)
+const aiR={'this':"In arrow functions, <strong>this</strong> is the context where the function was DEFINED — not where it's called. That's lexical this!",'scope':"Lexical scope: the function can access variables from where it was WRITTEN in the code, not where it runs.",'default':"Great question! Arrow functions: shorter syntax, no own this, great for callbacks. You're almost done with this module! 🚀"};
+function askAria(){const inp=document.getElementById('aiInp');const q=inp.value.toLowerCase().trim();if(!q)return;let r=aiR.default;if(q.includes('this'))r=aiR['this'];if(q.includes('scope'))r=aiR.scope;document.getElementById('aiMsg').innerHTML=r;inp.value='';showToast('🤖','Aria answered!');}
+
+// ── INIT ──
+updateAllXP();
+loadLesson(0);
+renderTalent();
+renderJobs();
+renderSkillPicker();
+renderCal();
+renderStore('perks');
+// Trigger streak warning after 4s to demo the feature
+setTimeout(()=>triggerStreakWarning(),4000);
+</script>
+</body>
+</html>
